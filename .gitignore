@@ -1,0 +1,8 @@
+.*/
+data/
+image_env/
+ir_reward_ckpt/
+Python*/
+reward_ckpt*/
+reward_run/
+wandb/
