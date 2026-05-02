@@ -6,3 +6,5 @@ Python*/
 reward_ckpt*/
 reward_run/
 wandb/
+ImageReward/
+ir*

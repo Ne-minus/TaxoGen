@@ -1,3 +1,5 @@
+
+
 """
 Fine-tune ImageReward on pairwise preference data.
 
@@ -129,7 +131,8 @@ class PairPreferenceDataset(Dataset):
         missing = required - set(self.df.columns)
         if missing:
             raise ValueError(f"Missing columns: {missing}")
-        if "definition" not in self.df.columns and "prompt" not in self.df.columns:
+        has_prompt = "definition" in self.df.columns or "prompt" in self.df.columns
+        if not has_prompt:
             raise ValueError("Need 'definition' or 'prompt' column.")
 
         self.df["label_id"] = self.df["result_human_def"].apply(normalize_label)
@@ -143,11 +146,19 @@ class PairPreferenceDataset(Dataset):
         if len(self.df) == 0:
             raise ValueError("No valid rows after filtering.")
 
+        # Case-insensitive lookup: lowercase(dirname) → actual dirname
+        self._dir_map: Dict[str, str] = {}
+        if os.path.isdir(images_root):
+            for d in os.listdir(images_root):
+                if os.path.isdir(os.path.join(images_root, d)):
+                    self._dir_map[d.lower()] = d
+
     def __len__(self):
         return len(self.df)
 
     def _load_image_path(self, model_name: str, wordnet_id: str) -> str:
-        model_dir = os.path.join(self.images_root, str(model_name))
+        actual_dir = self._dir_map.get(model_name.lower(), model_name)
+        model_dir = os.path.join(self.images_root, actual_dir)
         for ext in (".png", ".jpg", ".jpeg"):
             path = os.path.join(model_dir, f"{wordnet_id}{ext}")
             if os.path.exists(path):
@@ -156,9 +167,15 @@ class PairPreferenceDataset(Dataset):
 
     def __getitem__(self, idx: int) -> Dict:
         row = self.df.iloc[idx]
-        wid    = str(row["wordnet_id"])
-        prompt = f"An image of {row['core_synset']} ({row['definition']})"
-        label  = int(row["label_id"])
+        wid   = str(row["wordnet_id"])
+        label = int(row["label_id"])
+
+        if "definition" in self.df.columns and "core_synset" in self.df.columns:
+            prompt = f"An image of {row['core_synset']} ({row['definition']})"
+        elif "definition" in self.df.columns:
+            prompt = str(row["definition"])
+        else:
+            prompt = str(row["prompt"])
 
         img_a = Image.open(self._load_image_path(str(row["model_a"]), wid)).convert("RGB")
         img_b = Image.open(self._load_image_path(str(row["model_b"]), wid)).convert("RGB")
@@ -328,28 +345,33 @@ def predict_class(
     diff: torch.Tensor,
     reward_a: torch.Tensor,
     reward_b: torch.Tensor,
-    tie_margin: float = 0.3,
-    bad_threshold: float = -0.5,
+    tie_margin: float = 0.1,
+    bad_threshold: float = 0.4,
 ) -> torch.Tensor:
     """
     Логика:
-      оба reward < bad_threshold    → BothBad (3)
-      иначе |diff| <= tie_margin    → Tie (2)
-      иначе diff > tie_margin       → A_win (1)
-      иначе                         → B_win (0)
+      diff > tie_margin              → A_win (1)
+      diff < -tie_margin             → B_win (0)
+      |diff| <= tie_margin + mean_reward < bad_threshold → BothBad (3)
+      |diff| <= tie_margin + mean_reward >= bad_threshold → Tie (2)
+    BothBad и Tie различаются по среднему reward пары, а не по абсолютному порогу каждого.
     """
     device = diff.device
+    mean_reward = (reward_a + reward_b) / 2
+
+    # Сначала по diff: кто лучше
     pred = torch.where(
         diff > tie_margin,
-        torch.tensor(1, device=device),
+        torch.tensor(1, device=device),   # A_win
         torch.where(
             diff < -tie_margin,
-            torch.tensor(0, device=device),
-            torch.tensor(2, device=device),
+            torch.tensor(0, device=device),  # B_win
+            torch.tensor(2, device=device),  # Tie (пока)
         ),
     )
-    both_bad_mask = (reward_a < bad_threshold) & (reward_b < bad_threshold)
-    pred = torch.where(both_bad_mask, torch.tensor(3, device=device), pred)
+    # Потом override: если оба плохие — BothBad, независимо от diff
+    both_bad = mean_reward < bad_threshold
+    pred = torch.where(both_bad, torch.tensor(3, device=device), pred)
     return pred
 
 
@@ -381,16 +403,22 @@ def compute_loss(
     pair_loss = torch.where(labels == 2, lambda_tie * tie_loss, pair_loss)
     pair_loss = torch.where(labels == 3, lambda_tie * tie_loss, pair_loss)
 
-    # Anchor loss
+    # Anchor loss — разделяем классы по абсолютному уровню reward
+    mean_reward = (reward_a + reward_b) / 2
+
+    # A_win/B_win: winner должен быть выше tau_pos
     anchor_a_win = F.relu(tau_pos - reward_a)
     anchor_b_win = F.relu(tau_pos - reward_b)
-    anchor_bb_a  = F.relu(reward_a - tau_neg)
-    anchor_bb_b  = F.relu(reward_b - tau_neg)
+    # Tie: оба изображения хорошие → среднее выше tau_pos
+    anchor_tie = F.relu(tau_pos - mean_reward)
+    # BothBad: оба плохие → каждый reward ниже tau_neg (sum = двойной gradient)
+    anchor_bb  = F.relu(reward_a - tau_neg) + F.relu(reward_b - tau_neg)
 
     anchor_loss = torch.zeros_like(diff)
-    anchor_loss = torch.where(labels == 1, anchor_a_win,              anchor_loss)
-    anchor_loss = torch.where(labels == 0, anchor_b_win,              anchor_loss)
-    anchor_loss = torch.where(labels == 3, anchor_bb_a + anchor_bb_b, anchor_loss)
+    anchor_loss = torch.where(labels == 1, anchor_a_win, anchor_loss)
+    anchor_loss = torch.where(labels == 0, anchor_b_win, anchor_loss)
+    anchor_loss = torch.where(labels == 2, anchor_tie,   anchor_loss)
+    anchor_loss = torch.where(labels == 3, anchor_bb,    anchor_loss)
 
     loss = pair_loss.mean() + lambda_anchor * anchor_loss.mean()
 
@@ -520,19 +548,19 @@ def main():
     parser.add_argument("--weight_decay", type=float, default=1e-2)
     parser.add_argument("--dropout",      type=float, default=0.2)
     parser.add_argument("--label_smoothing", type=float, default=0.1)
-    parser.add_argument("--tie_margin",   type=float, default=0.3)
+    parser.add_argument("--tie_margin",   type=float, default=0.1)
     parser.add_argument("--lambda_tie",   type=float, default=0.5)
     parser.add_argument("--lambda_anchor", type=float, default=1.0)
     parser.add_argument("--tau_pos",      type=float, default=1.0)
     parser.add_argument("--tau_neg",      type=float, default=-1.0)
-    parser.add_argument("--bad_threshold", type=float, default=-0.5)
+    parser.add_argument("--bad_threshold", type=float, default=0.4)
     parser.add_argument("--seed",         type=int,   default=42)
     parser.add_argument("--num_workers",  type=int,   default=4)
     parser.add_argument("--freeze_backbone",    action="store_true")
     parser.add_argument("--unfreeze_top_layers", type=int, default=2)
     parser.add_argument("--position_swap_aug",  action="store_true",
                         help="На трейне с p=0.5 менять местами A/B (полезно против position bias)")
-    parser.add_argument("--early_stopping_patience", type=int, default=3)
+    parser.add_argument("--early_stopping_patience", type=int, default=5)
     parser.add_argument("--use_wandb",      action="store_true")
     parser.add_argument("--wandb_project",  default="taxonomy-reward-ir")
     parser.add_argument("--wandb_run_name", default=None)
