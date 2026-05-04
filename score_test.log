@@ -1,0 +1,25 @@
+Device: cuda
+Loaded 595 test rows
+Unique (model, image) pairs to score: 1187
+Loading checkpoint: ir_loss_runs_v2/best_v2_m10_uf2_wd1e2.pt
+load checkpoint from /root/.cache/ImageReward/ImageReward.pt
+checkpoint loaded
+Scored 1187 / 1187 images (skipped 0 missing files)
+Saved scores to test_scores.csv
+
+Per-model stats (sorted by median):
+                                                 count    median      mean       std
+model                                                                               
+tencent-hunyuan_hunyuandit-v1.2-diffusers           89 -1.115391 -0.712562  1.505833
+playgroundai_playground-v2.5-1024px-aesthetic      101 -1.012364 -0.967691  1.407347
+pixart-alpha_pixart-sigma-xl-2-512-ms              108 -0.802491 -0.655770  1.334387
+stabilityai_stable-diffusion-xl-base-1.0           112 -0.712811 -0.561877  1.243643
+black-forest-labs_flux.1-dev                        80 -0.657191 -0.396506  1.536811
+stabilityai_stable-diffusion-3-medium-diffusers    100 -0.388881 -0.221538  1.600692
+kandinsky-community_kandinsky-3                    115 -0.337405 -0.313726  1.524292
+stabilityai_sdxl-turbo                             105 -0.288720 -0.089429  1.285572
+deepfloyd_if-i-xl-v1.0                             106 -0.261339 -0.094735  1.499171
+prompthero_openjourney                              82  0.734610  0.720781  1.577735
+runwayml_stable-diffusion-v1-5                      99  0.871970  0.669135  1.549718
+retrieval                                           90  1.006702  1.022157  1.513140
+Saved plot to test_scores_boxplot.png
