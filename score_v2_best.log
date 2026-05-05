@@ -1,0 +1,25 @@
+Device: cuda
+Test wids: 586
+Model dirs on disk: 13
+(model, wid) pairs to score: 1463
+Loading checkpoint: ir_loss_runs_v2/best_v2_m05_uf4_drop3.pt
+load checkpoint from /root/.cache/ImageReward/ImageReward.pt
+checkpoint loaded
+  scored 1280 / 1463
+Saved 1463 rows to test_scores_v2_best.csv
+
+Per-model stats:
+                                                 count    median      mean
+model                                                                     
+retrieval                                          105 -0.294951 -0.322346
+runwayml_stable-diffusion-v1-5                     109 -0.158813 -0.221518
+prompthero_openjourney                             106 -0.124086 -0.238920
+stabilityai_sdxl-turbo                             127  0.003679  0.016108
+deepfloyd_if-i-xl-v1.0                             127  0.057497 -0.002192
+stabilityai_stable-diffusion-3-medium-diffusers    117  0.063567 -0.012412
+stabilityai_stable-diffusion-xl-base-1.0           129  0.078293  0.070764
+kandinsky-community_kandinsky-3                    136  0.087637  0.071487
+tencent-hunyuan_hunyuandit-v1.2-diffusers          108  0.104195  0.088411
+pixart-alpha_pixart-sigma-xl-2-512-ms              125  0.185583  0.166825
+black-forest-labs_flux.1-dev                       158  0.217258  0.087517
+playgroundai_playground-v2.5-1024px-aesthetic      116  0.297049  0.272350

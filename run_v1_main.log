@@ -1,0 +1,45 @@
+
+############ bt_lr1e5_uf2 ############
+=== bt_lr1e5_uf2 | loss=bt | lr=1e-05 | margin=0.5 | unfreeze=2 ===
+Device: cuda
+[train.csv] kept 1780/2970 pair rows
+[val.csv] kept 228/397 pair rows
+[test.csv] kept 351/594 pair rows
+load checkpoint from /root/.cache/ImageReward/ImageReward.pt
+checkpoint loaded
+Trainable: 45,810,401
+
+Epoch 1/8
+Train: {'loss': 0.6404, 'binary_acc': 0.6379, 'weighted_f1': 0.6392, 'f1_B_win': 0.5956, 'f1_A_win': 0.6048, 'mean_signed_diff': 0.2994, 'mean_abs_diff': 0.7154, 'reward_std': 0.7111, 'reward_mean': -0.3583, 'diff_correct': 0.8001, 'diff_incorrect': 0.5462}
+Val:   {'loss': 0.6227, 'binary_acc': 0.6638, 'weighted_f1': 0.6667, 'f1_B_win': 0.6443, 'f1_A_win': 0.6423, 'mean_signed_diff': 0.4807, 'mean_abs_diff': 0.9634, 'reward_std': 1.0525, 'reward_mean': -0.216, 'diff_correct': 1.104, 'diff_incorrect': 0.6434}
+  Saved best (val_acc=0.6638)
+
+Epoch 2/8
+Train: {'loss': 0.6148, 'binary_acc': 0.6609, 'weighted_f1': 0.6597, 'f1_B_win': 0.6286, 'f1_A_win': 0.6347, 'mean_signed_diff': 0.4167, 'mean_abs_diff': 0.851, 'reward_std': 0.8286, 'reward_mean': -0.3691, 'diff_correct': 0.9599, 'diff_incorrect': 0.6276}
+Val:   {'loss': 0.5951, 'binary_acc': 0.6595, 'weighted_f1': 0.6597, 'f1_B_win': 0.6322, 'f1_A_win': 0.6503, 'mean_signed_diff': 0.4609, 'mean_abs_diff': 0.8289, 'reward_std': 0.9045, 'reward_mean': -0.2341, 'diff_correct': 0.9989, 'diff_incorrect': 0.4652}
+  No improvement (1/4)
+
+Epoch 3/8
+Train: {'loss': 0.5822, 'binary_acc': 0.6962, 'weighted_f1': 0.7, 'f1_B_win': 0.6687, 'f1_A_win': 0.659, 'mean_signed_diff': 0.5989, 'mean_abs_diff': 1.0343, 'reward_std': 1.0102, 'reward_mean': -0.2347, 'diff_correct': 1.188, 'diff_incorrect': 0.6968}
+Val:   {'loss': 0.5969, 'binary_acc': 0.6767, 'weighted_f1': 0.6776, 'f1_B_win': 0.6528, 'f1_A_win': 0.6666, 'mean_signed_diff': 0.624, 'mean_abs_diff': 1.098, 'reward_std': 1.1754, 'reward_mean': 0.0518, 'diff_correct': 1.2532, 'diff_incorrect': 0.6107}
+  Saved best (val_acc=0.6767)
+
+Epoch 4/8
+Train: {'loss': 0.5524, 'binary_acc': 0.7186, 'weighted_f1': 0.7166, 'f1_B_win': 0.69, 'f1_A_win': 0.6768, 'mean_signed_diff': 0.7972, 'mean_abs_diff': 1.2473, 'reward_std': 1.2015, 'reward_mean': -0.1391, 'diff_correct': 1.4186, 'diff_incorrect': 0.7312}
+Val:   {'loss': 0.5961, 'binary_acc': 0.6853, 'weighted_f1': 0.6864, 'f1_B_win': 0.6684, 'f1_A_win': 0.6645, 'mean_signed_diff': 0.726, 'mean_abs_diff': 1.2523, 'reward_std': 1.3384, 'reward_mean': 0.1573, 'diff_correct': 1.4189, 'diff_incorrect': 0.6679}
+  Saved best (val_acc=0.6853)
+
+Epoch 5/8
+Train: {'loss': 0.5206, 'binary_acc': 0.7433, 'weighted_f1': 0.7411, 'f1_B_win': 0.7326, 'f1_A_win': 0.6977, 'mean_signed_diff': 1.0454, 'mean_abs_diff': 1.5204, 'reward_std': 1.4472, 'reward_mean': -0.125, 'diff_correct': 1.7499, 'diff_incorrect': 0.8223}
+Val:   {'loss': 0.6011, 'binary_acc': 0.6897, 'weighted_f1': 0.6871, 'f1_B_win': 0.6712, 'f1_A_win': 0.6596, 'mean_signed_diff': 0.8338, 'mean_abs_diff': 1.4189, 'reward_std': 1.4986, 'reward_mean': 0.1275, 'diff_correct': 1.6082, 'diff_incorrect': 0.7541}
+  Saved best (val_acc=0.6897)
+
+Epoch 6/8
+Train: {'loss': 0.5033, 'binary_acc': 0.7522, 'weighted_f1': 0.756, 'f1_B_win': 0.7207, 'f1_A_win': 0.7227, 'mean_signed_diff': 1.155, 'mean_abs_diff': 1.6131, 'reward_std': 1.5285, 'reward_mean': -0.0818, 'diff_correct': 1.8439, 'diff_incorrect': 0.7986}
+Val:   {'loss': 0.6167, 'binary_acc': 0.6897, 'weighted_f1': 0.6871, 'f1_B_win': 0.6712, 'f1_A_win': 0.6596, 'mean_signed_diff': 0.979, 'mean_abs_diff': 1.6528, 'reward_std': 1.7398, 'reward_mean': 0.3907, 'diff_correct': 1.8755, 'diff_incorrect': 0.8693}
+  No improvement (1/4)
+
+Epoch 7/8
+Train: {'loss': 0.4938, 'binary_acc': 0.7584, 'weighted_f1': 0.7555, 'f1_B_win': 0.7389, 'f1_A_win': 0.7305, 'mean_signed_diff': 1.2776, 'mean_abs_diff': 1.7431, 'reward_std': 1.6439, 'reward_mean': -0.0281, 'diff_correct': 1.9951, 'diff_incorrect': 0.8359}
+Val:   {'loss': 0.6174, 'binary_acc': 0.6897, 'weighted_f1': 0.6871, 'f1_B_win': 0.6712, 'f1_A_win': 0.6596, 'mean_signed_diff': 0.9988, 'mean_abs_diff': 1.6818, 'reward_std': 1.7642, 'reward_mean': 0.3198, 'diff_correct': 1.9117, 'diff_incorrect': 0.8816}
+  No improvement (2/4)

@@ -4,15 +4,15 @@
 
 set -e
 cd /workspace/TaxoGen
-source /workspace/myenv/bin/activate
+source /workspace/benv/bin/activate
 
 OUT=ir_loss_runs_v2
 mkdir -p $OUT
 
 COMMON="--train_csv splits/train.csv --val_csv splits/val.csv --test_csv splits/test.csv \
-        --images_root data --output_dir $OUT \
+        --images_root /workspace/data --output_dir $OUT \
         --freeze_backbone --position_swap_aug \
-        --batch_size 8 --epochs 18 --early_stopping_patience 8 \
+        --batch_size 8 --epochs 6 --early_stopping_patience 3 \
         --loss margin --lr 3e-5"
 
 declare -a EXPS=(
