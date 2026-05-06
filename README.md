@@ -141,7 +141,7 @@ Settings: freeze backbone, unfreeze top-2 vision + text layers, batch 64, lr 3e-
 | `base32_infonce` | base-patch32 | InfoNCE | 0.538 | 0.544 | 0.542 |
 | `large14_infonce` | large-patch14 | InfoNCE | 0.558 | 0.534 | 0.533 |
 
-**Best checkpoint:** `clip_pairs_ckpt/best_large14_bt.pt`
+**Best checkpoint (loss sweep):** `clip_pairs_ckpt/best_large14_bt.pt`
 (clip-vit-large-patch14, BT loss, test acc **0.731**, +28.9 pp over zero-shot).
 
 Key observations:
@@ -150,6 +150,31 @@ Key observations:
 - `margin_var` (margin + variance regularisation) is the best base32 variant.
 - **InfoNCE fails** on both model sizes (~0.54) — in-batch contrastive needs larger
   batch diversity; at 64 samples / 28 batches per epoch there is insufficient negatives.
+
+### Regularisation sweep (large-patch14, BT loss)
+
+Baseline `large14_bt` showed severe overfitting: train acc → 1.000 by epoch 9,
+mean_abs_diff exploded 0.57 → 8.43, val acc peaked at epoch 4 then declined.
+
+Settings: same as above but 15 epochs, varying `dropout` and `label_smoothing`.
+
+| Run | dropout | label_smooth | Best val acc | **Test acc** | vs baseline |
+|---|---|---|---|---|---|
+| `large14_bt` (baseline) | 0.3 | 0.0 | 0.709 | 0.731 | — |
+| `large14_bt_drop05` | 0.5 | 0.0 | 0.706 | 0.726 | −0.5 pp |
+| `large14_bt_ls01` | 0.3 | 0.1 | 0.705 | 0.689 | −4.2 pp |
+| `large14_bt_ls02` | 0.3 | 0.2 | 0.708 | 0.684 | −4.7 pp |
+| **`large14_bt_ls01_drop05`** | **0.5** | **0.1** | **0.734** | **0.749** | **+1.8 pp** |
+
+**Best checkpoint (overall):** `clip_pairs_ckpt/best_large14_bt_ls01_drop05.pt`
+(test acc **0.749**, +30.7 pp over zero-shot).
+
+Key observations:
+- Label smoothing alone **hurts** (−4 pp): softens the loss for correct pairs without
+  curbing overconfident wrong predictions, so the model generalises worse.
+- Dropout alone helps marginally (−0.5 pp vs baseline, but more stable training).
+- **Combined** dropout=0.5 + label_smoothing=0.1 stabilises reward scale
+  (mean_abs_diff plateaus at ~2.2 vs runaway 8.4 in baseline) and gives best test acc.
 
 ## Notes on training dynamics
 
