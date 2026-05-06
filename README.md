@@ -105,6 +105,52 @@ swapped at the bottom — both swaps involve models with ELO within 12 points of
 The point estimate (0.965) is somewhat optimistic — bootstrap mean is 0.926 and the lower
 end of 95% CI is 0.84, which is still a strong rank correlation.
 
+## CLIP fine-tuning experiments (pairs only)
+
+Fine-tunes a CLIP-based reward model (`train_clip_pairs_only.py`) on pairwise pairs only
+(Tie and BothBad rows dropped). Reward head: `[img_emb, txt_emb, img*txt, |img-txt|] → Linear(4·d, 1)`.
+Preprocessing moved into DataLoader workers for GPU throughput.
+
+### Zero-shot CLIP baseline
+
+Prediction: `A_win if cosine_sim(img_a, text) > cosine_sim(img_b, text)`.
+
+| Model | Test acc | Test wF1 |
+|---|---|---|
+| clip-vit-base-patch32 | 0.447 | 0.447 |
+| clip-vit-large-patch14 | 0.442 | 0.441 |
+
+Zero-shot is **below random** (< 0.50): CLIP cosine similarity does not correlate with
+human preferences when both images are generated from the same prompt.
+
+### Fine-tuning sweep results
+
+Settings: freeze backbone, unfreeze top-2 vision + text layers, batch 64, lr 3e-5,
+10 epochs (early stopping patience 5), position-swap augmentation.
+
+| Run | Model | Loss | Best val acc | **Test acc** | Test wF1 |
+|---|---|---|---|---|---|
+| `large14_bt` | large-patch14 | BT | 0.709 | **0.731** | 0.730 |
+| `base32_margin_var` | base-patch32 | margin+var | 0.653 | 0.723 | 0.722 |
+| `base32_margin` | base-patch32 | margin | 0.661 | 0.718 | 0.717 |
+| `base32_bt` | base-patch32 | BT | 0.648 | 0.718 | 0.716 |
+| `large14_margin` | large-patch14 | margin | 0.705 | 0.710 | 0.709 |
+| `large14_hybrid` | large-patch14 | hybrid | 0.709 | 0.704 | 0.704 |
+| `base32_hybrid` | base-patch32 | hybrid | 0.648 | 0.699 | 0.698 |
+| `base32_margin_dec` | base-patch32 | margin+dec | 0.655 | 0.697 | 0.695 |
+| `base32_infonce` | base-patch32 | InfoNCE | 0.538 | 0.544 | 0.542 |
+| `large14_infonce` | large-patch14 | InfoNCE | 0.558 | 0.534 | 0.533 |
+
+**Best checkpoint:** `clip_pairs_ckpt/best_large14_bt.pt`
+(clip-vit-large-patch14, BT loss, test acc **0.731**, +28.9 pp over zero-shot).
+
+Key observations:
+- Fine-tuning gives a massive **+28 pp** over zero-shot regardless of model/loss.
+- `clip-vit-large-patch14` beats `base-patch32` by ~1 pp at best loss.
+- `margin_var` (margin + variance regularisation) is the best base32 variant.
+- **InfoNCE fails** on both model sizes (~0.54) — in-batch contrastive needs larger
+  batch diversity; at 64 samples / 28 batches per epoch there is insufficient negatives.
+
 ## Notes on training dynamics
 
 The pure margin loss (`ReLU(margin − signed_diff)`) does not show a continuously

@@ -1,0 +1,73 @@
+=== base32_margin_dec | model=openai/clip-vit-base-patch32 | loss=margin_dec | margin=0.5 | lr=3e-05 | unfreeze_vis=2 | unfreeze_txt=2 ===
+Device: cuda
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[train.csv] kept 1780/2970 pair rows (dropped Tie/BothBad); distribution: {0.0: 893, 1.0: 887}
+[val.csv] kept 228/397 pair rows (dropped Tie/BothBad); distribution: {1.0: 116, 0.0: 112}
+[test.csv] kept 351/594 pair rows (dropped Tie/BothBad); distribution: {0.0: 180, 1.0: 171}
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 30693.04it/s]
+Trainable: 21,142,017 / 151,283,458
+/usr/local/lib/python3.12/dist-packages/PIL/Image.py:1034: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+
+Epoch 1/10
+Train: {'loss': 0.5162, 'binary_acc': 0.5515, 'weighted_f1': 0.5525, 'f1_B_win': 0.557, 'f1_A_win': 0.5375, 'mean_signed_diff': 0.0939, 'mean_abs_diff': 0.4958, 'reward_mean': 0.0107, 'reward_std': 0.488, 'diff_correct': 0.5329, 'diff_incorrect': 0.4503}
+Val:   {'loss': 0.4253, 'binary_acc': 0.6302, 'weighted_f1': 0.6289, 'f1_B_win': 0.629, 'f1_A_win': 0.6285, 'mean_signed_diff': 0.168, 'mean_abs_diff': 0.4282, 'reward_mean': -0.0159, 'reward_std': 0.4734, 'diff_correct': 0.4725, 'diff_incorrect': 0.3511}
+  Saved best (val binary_acc=0.6302)
+/usr/local/lib/python3.12/dist-packages/PIL/Image.py:1034: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+
+Epoch 2/10
+Train: {'loss': 0.3343, 'binary_acc': 0.7334, 'weighted_f1': 0.733, 'f1_B_win': 0.7321, 'f1_A_win': 0.7307, 'mean_signed_diff': 0.4075, 'mean_abs_diff': 0.636, 'reward_mean': 0.0058, 'reward_std': 0.5715, 'diff_correct': 0.7109, 'diff_incorrect': 0.4285}
+Val:   {'loss': 0.4169, 'binary_acc': 0.6285, 'weighted_f1': 0.6273, 'f1_B_win': 0.6155, 'f1_A_win': 0.6382, 'mean_signed_diff': 0.1719, 'mean_abs_diff': 0.4001, 'reward_mean': 0.0139, 'reward_std': 0.4471, 'diff_correct': 0.4555, 'diff_incorrect': 0.3073}
+  No improvement (1/5)
+/usr/local/lib/python3.12/dist-packages/PIL/Image.py:1034: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+
+Epoch 3/10
+Train: {'loss': 0.2303, 'binary_acc': 0.8226, 'weighted_f1': 0.8228, 'f1_B_win': 0.8248, 'f1_A_win': 0.8142, 'mean_signed_diff': 0.5817, 'mean_abs_diff': 0.706, 'reward_mean': -0.0099, 'reward_std': 0.5924, 'diff_correct': 0.7834, 'diff_incorrect': 0.3565}
+Val:   {'loss': 0.4357, 'binary_acc': 0.6246, 'weighted_f1': 0.6247, 'f1_B_win': 0.6225, 'f1_A_win': 0.6261, 'mean_signed_diff': 0.1909, 'mean_abs_diff': 0.4999, 'reward_mean': 0.0328, 'reward_std': 0.5241, 'diff_correct': 0.5559, 'diff_incorrect': 0.4119}
+  No improvement (2/5)
+
+Epoch 4/10
+Train: {'loss': 0.1441, 'binary_acc': 0.8994, 'weighted_f1': 0.8995, 'f1_B_win': 0.897, 'f1_A_win': 0.9, 'mean_signed_diff': 0.8275, 'mean_abs_diff': 0.8876, 'reward_mean': 0.0197, 'reward_std': 0.6751, 'diff_correct': 0.9528, 'diff_incorrect': 0.3035}
+Val:   {'loss': 0.4552, 'binary_acc': 0.6076, 'weighted_f1': 0.6076, 'f1_B_win': 0.6106, 'f1_A_win': 0.6034, 'mean_signed_diff': 0.2249, 'mean_abs_diff': 0.5658, 'reward_mean': -0.1225, 'reward_std': 0.6075, 'diff_correct': 0.6519, 'diff_incorrect': 0.4314}
+  No improvement (3/5)
+
+Epoch 5/10
+Train: {'loss': 0.0842, 'binary_acc': 0.9554, 'weighted_f1': 0.9554, 'f1_B_win': 0.9546, 'f1_A_win': 0.9547, 'mean_signed_diff': 1.0544, 'mean_abs_diff': 1.0805, 'reward_mean': -0.0079, 'reward_std': 0.7606, 'diff_correct': 1.1178, 'diff_incorrect': 0.264}
+Val:   {'loss': 0.4385, 'binary_acc': 0.6549, 'weighted_f1': 0.654, 'f1_B_win': 0.6627, 'f1_A_win': 0.6436, 'mean_signed_diff': 0.2349, 'mean_abs_diff': 0.5631, 'reward_mean': -0.0601, 'reward_std': 0.579, 'diff_correct': 0.6121, 'diff_incorrect': 0.477}
+  Saved best (val binary_acc=0.6549)
+
+Epoch 6/10
+Train: {'loss': 0.0577, 'binary_acc': 0.9749, 'weighted_f1': 0.9749, 'f1_B_win': 0.9741, 'f1_A_win': 0.9752, 'mean_signed_diff': 1.1837, 'mean_abs_diff': 1.1966, 'reward_mean': 0.001, 'reward_std': 0.796, 'diff_correct': 1.2205, 'diff_incorrect': 0.2185}
+Val:   {'loss': 0.4392, 'binary_acc': 0.6528, 'weighted_f1': 0.6523, 'f1_B_win': 0.6573, 'f1_A_win': 0.6462, 'mean_signed_diff': 0.2537, 'mean_abs_diff': 0.5834, 'reward_mean': 0.0283, 'reward_std': 0.5999, 'diff_correct': 0.6424, 'diff_incorrect': 0.4723}
+  No improvement (1/5)
+/usr/local/lib/python3.12/dist-packages/PIL/Image.py:1034: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+
+Epoch 7/10
+Train: {'loss': 0.0414, 'binary_acc': 0.9887, 'weighted_f1': 0.9887, 'f1_B_win': 0.9881, 'f1_A_win': 0.989, 'mean_signed_diff': 1.2407, 'mean_abs_diff': 1.2443, 'reward_mean': -0.0112, 'reward_std': 0.7944, 'diff_correct': 1.2566, 'diff_incorrect': 0.0786}
+Val:   {'loss': 0.4395, 'binary_acc': 0.6528, 'weighted_f1': 0.6523, 'f1_B_win': 0.6602, 'f1_A_win': 0.6434, 'mean_signed_diff': 0.2547, 'mean_abs_diff': 0.5924, 'reward_mean': -0.0184, 'reward_std': 0.5971, 'diff_correct': 0.6516, 'diff_incorrect': 0.4893}
+  No improvement (2/5)
+
+Epoch 8/10
+Train: {'loss': 0.0332, 'binary_acc': 0.9924, 'weighted_f1': 0.9924, 'f1_B_win': 0.9923, 'f1_A_win': 0.9921, 'mean_signed_diff': 1.3084, 'mean_abs_diff': 1.3125, 'reward_mean': 0.0033, 'reward_std': 0.8141, 'diff_correct': 1.3206, 'diff_incorrect': 0.0885}
+Val:   {'loss': 0.4447, 'binary_acc': 0.6528, 'weighted_f1': 0.6522, 'f1_B_win': 0.6587, 'f1_A_win': 0.6448, 'mean_signed_diff': 0.2399, 'mean_abs_diff': 0.5772, 'reward_mean': -0.0693, 'reward_std': 0.5839, 'diff_correct': 0.6264, 'diff_incorrect': 0.4849}
+  No improvement (3/5)
+
+Epoch 9/10
+Train: {'loss': 0.0277, 'binary_acc': 0.9967, 'weighted_f1': 0.9967, 'f1_B_win': 0.9967, 'f1_A_win': 0.9966, 'mean_signed_diff': 1.3075, 'mean_abs_diff': 1.3085, 'reward_mean': 0.0027, 'reward_std': 0.8027, 'diff_correct': 1.3125, 'diff_incorrect': 0.0282}
+Val:   {'loss': 0.4438, 'binary_acc': 0.6497, 'weighted_f1': 0.649, 'f1_B_win': 0.6604, 'f1_A_win': 0.6364, 'mean_signed_diff': 0.2312, 'mean_abs_diff': 0.5663, 'reward_mean': -0.0013, 'reward_std': 0.5702, 'diff_correct': 0.6144, 'diff_incorrect': 0.4793}
+  No improvement (4/5)
+
+Epoch 10/10
+Train: {'loss': 0.0262, 'binary_acc': 0.9933, 'weighted_f1': 0.9933, 'f1_B_win': 0.9932, 'f1_A_win': 0.9931, 'mean_signed_diff': 1.2967, 'mean_abs_diff': 1.3001, 'reward_mean': 0.0197, 'reward_std': 0.7912, 'diff_correct': 1.3073, 'diff_incorrect': 0.0801}
+Val:   {'loss': 0.4432, 'binary_acc': 0.6458, 'weighted_f1': 0.6453, 'f1_B_win': 0.6556, 'f1_A_win': 0.6337, 'mean_signed_diff': 0.2305, 'mean_abs_diff': 0.5645, 'reward_mean': 0.0029, 'reward_std': 0.5679, 'diff_correct': 0.6166, 'diff_incorrect': 0.4732}
+  No improvement (5/5)
+Early stopping at epoch 10.
+
+Training done.
+Loading best model for test evaluation...
+=== base32_margin_dec TEST ===
+{'loss': 0.351, 'binary_acc': 0.6967, 'weighted_f1': 0.6954, 'f1_B_win': 0.7056, 'f1_A_win': 0.6817, 'mean_signed_diff': 0.3992, 'mean_abs_diff': 0.6265, 'reward_mean': -0.1038, 'reward_std': 0.6023, 'diff_correct': 0.7382, 'diff_incorrect': 0.3766}
+[18:45:08] Done base32_margin_dec (exit 0)
