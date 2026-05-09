@@ -254,6 +254,29 @@ significantly reproduces the human preference ranking.
 Maximum rank error ±2. Bottom 4 models reproduced exactly.
 Checkpoint: `clip_fixed_ckpt/best_fixed_labels.pt`
 
+### MLE ELO from model reward (pairwise battles)
+
+ELO computed from all N(N−1)/2 pairwise comparisons within each prompt (winner = higher reward),
+using the same Bradley-Terry / logistic regression as `arena_elo.py`.
+Bootstrap resamples prompts, n=200. Spearman ρ = **+0.944** vs human ELO.
+
+![Model ELO](model_elo_plot.png)
+
+| Model | Model ELO | 95% CI | Human ELO |
+|---|---|---|---|
+| Playground | 1163.6 | [1145.5, 1180.7] | 1058 |
+| FLUX | 1156.7 | [1139.0, 1172.3] | 1085 |
+| PixArt | 1101.7 | [1086.7, 1116.4] | 1043 |
+| HDiT | 1073.7 | [1057.9, 1087.6] | 1013 |
+| Kandinsky3 | 1053.2 | [1035.4, 1073.9] | 1017 |
+| SDXL | 1012.1 | [994.8, 1027.4] | 1027 |
+| SD3 | 997.4 | [981.3, 1014.8] | 990 |
+| SDXL-turbo | 982.5 | [965.3, 1001.7] | 1011 |
+| DeepFloyd | 923.8 | [907.0, 940.0] | 993 |
+| Retrieval | 916.1 | [900.2, 931.5] | 950 |
+| Openjourney | 820.0 | [802.0, 838.9] | 907 |
+| SD1.5 | 799.3 | [781.1, 816.8] | 901 |
+
 ## Notes on training dynamics
 
 The pure margin loss (`ReLU(margin − signed_diff)`) does not show a continuously
