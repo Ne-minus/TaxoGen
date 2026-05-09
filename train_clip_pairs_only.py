@@ -55,8 +55,8 @@ from transformers import CLIPModel, CLIPProcessor, get_cosine_schedule_with_warm
 
 # ─── Labels ──────────────────────────────────────────────────────────────────
 
-# CSV convention: 0=B_win, 1=A_win, 2=Tie, 3=BothBad
-# We keep only {0, 1} — same convention as the other CLIP scripts.
+# CSV convention (arena_elo.py): 0=A_win, 1=B_win, 2=Tie, 3=BothBad
+# Loss expects:                  1=A_win, 0=B_win  → flip 0↔1 on load
 
 def normalize_label(x):
     if pd.isna(x):
@@ -65,7 +65,9 @@ def normalize_label(x):
         x = int(x)
     except Exception:
         return None
-    return x if x in [0, 1] else None   # drop Tie (2) and BothBad (3)
+    if x == 0: return 1  # arena 0=A_win → loss 1=A_win
+    if x == 1: return 0  # arena 1=B_win → loss 0=B_win
+    return None           # drop Tie (2) and BothBad (3)
 
 
 def set_seed(seed: int) -> None:

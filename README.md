@@ -176,6 +176,84 @@ Key observations:
 - **Combined** dropout=0.5 + label_smoothing=0.1 stabilises reward scale
   (mean_abs_diff plateaus at ~2.2 vs runaway 8.4 in baseline) and gives best test acc.
 
+## Label convention bug and corrected CLIP model
+
+### Bug
+
+The pairwise annotation uses the [Chatbot Arena](https://github.com/lm-sys/FastChat) convention:
+`result=0` → model\_a wins, `result=1` → model\_b wins.
+`arena_elo.py` implements this correctly (`Y[result==0] = 1.0` → model\_a credited).
+
+`train_clip_pairs_only.py` had the **opposite** comment and implementation:
+it treated `label=1` as A\_win and `label=0` as B\_win. The model therefore trained to
+assign **higher reward to the losing image**, achieving 73% accuracy on the inverted labels
+while producing Spearman ρ = −0.96 with human ELO.
+
+Confirmed empirically: all 6 FLUX vs SD1.5 test pairs decoded correctly under the arena
+convention (FLUX wins every time), and inverted under the training convention.
+
+### Fix
+
+One-line change in `normalize_label` in `train_clip_pairs_only.py`:
+
+```python
+# before (wrong):
+return x if x in [0, 1] else None
+
+# after (arena convention):
+if x == 0: return 1   # arena 0=A_win  →  loss 1=A_win
+if x == 1: return 0   # arena 1=B_win  →  loss 0=B_win
+return None
+```
+
+### Re-training (clip-vit-large-patch14, BT + dropout=0.5 + label\_smooth=0.1)
+
+Images from `TaxoGen_sampled/` (full train/val/test coverage).
+Same hyperparameters as the best regularised run above.
+
+| Split | Pairs | Best val acc | Test acc |
+|---|---|---|---|
+| train | 1780 | 0.671 (epoch 6) | — |
+| test | 351 | — | **0.7226** |
+
+Early stopping at epoch 11 (patience 5).
+
+### Fair correlation with human ELO
+
+Scoring: all 12 models × 577 wordnet IDs from `collected_wordnet_images/`.
+Within-prompt rank computed across all 12 models simultaneously (no pair-selection bias).
+Bootstrap resamples prompts (wordnet\_ids) with replacement, n=1000.
+
+| Metric | ρ point | 95% CI |
+|---|---|---|
+| Mean reward | **+0.965** | [+0.937, +0.972] |
+| Median reward | **+0.951** | [+0.902, +0.972] |
+| Mean rank (1=best) | −0.944 | [−0.965, −0.888] |
+| Win@1 fraction | +0.900 | [+0.807, +0.949] |
+
+All CIs are strictly positive (or strictly negative for mean rank). The model strongly and
+significantly reproduces the human preference ranking.
+
+### Model ranking
+
+| Human ELO rank | Model | ELO | Model rank | Δ | Median reward | Win@1 |
+|---|---|---|---|---|---|---|
+| 1 | FLUX | 1085 | 2 | +1 | +0.898 | 0.242 |
+| 2 | Playground | 1058 | 1 | −1 | +0.911 | 0.192 |
+| 3 | PixArt | 1043 | 3 | 0 | +0.603 | 0.102 |
+| 4 | SDXL | 1027 | 6 | +2 | +0.331 | 0.070 |
+| 5 | Kandinsky3 | 1017 | 4 | −1 | +0.570 | 0.106 |
+| 6 | HDiT | 1013 | 5 | −1 | +0.536 | 0.115 |
+| 7 | SDXL-turbo | 1011 | 8 | +1 | +0.217 | 0.050 |
+| 8 | DeepFloyd | 993 | 9 | +1 | −0.034 | 0.016 |
+| 9 | SD3 | 990 | 7 | −2 | +0.267 | 0.052 |
+| 10 | Retrieval | 950 | 10 | 0 | −0.143 | 0.041 |
+| 11 | Openjourney | 907 | 11 | 0 | −0.647 | 0.007 |
+| 12 | SD1.5 | 901 | 12 | 0 | −0.752 | 0.007 |
+
+Maximum rank error ±2. Bottom 4 models reproduced exactly.
+Checkpoint: `clip_fixed_ckpt/best_fixed_labels.pt`
+
 ## Notes on training dynamics
 
 The pure margin loss (`ReLU(margin − signed_diff)`) does not show a continuously
