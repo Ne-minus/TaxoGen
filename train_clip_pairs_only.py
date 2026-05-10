@@ -89,12 +89,14 @@ class PairOnlyDataset(Dataset):
 
     def __init__(self, csv_path: str, images_root: str = "",
                  processor: "CLIPProcessor" = None,
-                 augment: bool = False, position_swap: bool = False):
+                 augment: bool = False, position_swap: bool = False,
+                 no_definition: bool = False):
         self.df = pd.read_csv(csv_path)
         self.images_root = images_root
         self.processor = processor
         self.augment = augment
         self.position_swap = position_swap
+        self.no_definition = no_definition
 
         required = {"wordnet_id", "model_a", "model_b", "result_human_def"}
         missing = required - set(self.df.columns)
@@ -151,8 +153,10 @@ class PairOnlyDataset(Dataset):
         wid   = str(row["wordnet_id"])
         label = int(row["label_id"])
 
-        if "definition" in self.df.columns and "core_synset" in self.df.columns:
+        if not self.no_definition and "definition" in self.df.columns and "core_synset" in self.df.columns:
             prompt = f"An image of {row['core_synset']} ({row['definition']})"
+        elif "core_synset" in self.df.columns:
+            prompt = f"An image of {row['core_synset']}"
         elif "definition" in self.df.columns:
             prompt = str(row["definition"])
         else:
@@ -482,6 +486,8 @@ def main():
     p.add_argument("--seed",                     type=int, default=42)
     p.add_argument("--num_workers",              type=int, default=4)
     p.add_argument("--position_swap_aug",        action="store_true")
+    p.add_argument("--no_definition",            action="store_true",
+                   help="Use 'An image of {core_synset}' without definition in prompt")
     p.add_argument("--early_stopping_patience",  type=int, default=5)
     p.add_argument("--output_dir",  default="./clip_pairs_only_ckpt")
     p.add_argument("--run_tag",     default="run",
@@ -520,7 +526,8 @@ def main():
     def make_loader(path, augment, shuffle, swap):
         ds = PairOnlyDataset(path, images_root=args.images_root,
                              processor=processor,
-                             augment=augment, position_swap=swap)
+                             augment=augment, position_swap=swap,
+                             no_definition=args.no_definition)
         return DataLoader(ds, batch_size=args.batch_size, shuffle=shuffle,
                           num_workers=args.num_workers, collate_fn=collator,
                           pin_memory=True, persistent_workers=(args.num_workers > 0))

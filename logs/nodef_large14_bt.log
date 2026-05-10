@@ -1,0 +1,74 @@
+=== nodef_large14_bt | model=openai/clip-vit-large-patch14 | loss=bt | margin=0.5 | lr=3e-05 | unfreeze_vis=2 | unfreeze_txt=2 ===
+Device: cuda
+[train.csv] kept 1780/2970 pair rows (dropped Tie/BothBad); distribution: {1.0: 893, 0.0: 887}
+[val.csv] kept 228/397 pair rows (dropped Tie/BothBad); distribution: {0.0: 116, 1.0: 112}
+[test.csv] kept 351/594 pair rows (dropped Tie/BothBad); distribution: {1.0: 180, 0.0: 171}
+Loading weights:   0%|          | 0/590 [00:00<?, ?it/s]Loading weights:  82%|████████▏ | 484/590 [00:00<00:00, 4835.97it/s]Loading weights: 100%|██████████| 590/590 [00:00<00:00, 4312.27it/s]
+Trainable: 40,753,665 / 427,625,730
+/venv/main/lib/python3.12/site-packages/PIL/Image.py:1034: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+
+Epoch 1/15
+Train: {'loss': 0.7769, 'binary_acc': 0.5007, 'weighted_f1': 0.502, 'f1_B_win': 0.5009, 'f1_A_win': 0.4891, 'mean_signed_diff': 0.006, 'mean_abs_diff': 0.6957, 'reward_mean': 0.5227, 'reward_std': 0.6344, 'diff_correct': 0.6977, 'diff_incorrect': 0.6916}
+Val:   {'loss': 0.663, 'binary_acc': 0.6124, 'weighted_f1': 0.6118, 'f1_B_win': 0.6255, 'f1_A_win': 0.5974, 'mean_signed_diff': 0.137, 'mean_abs_diff': 0.3529, 'reward_mean': 0.5115, 'reward_std': 0.4171, 'diff_correct': 0.4002, 'diff_incorrect': 0.2765}
+  Saved best (val binary_acc=0.6124)
+
+Epoch 2/15
+Train: {'loss': 0.6655, 'binary_acc': 0.6458, 'weighted_f1': 0.6459, 'f1_B_win': 0.6391, 'f1_A_win': 0.6429, 'mean_signed_diff': 0.3635, 'mean_abs_diff': 0.8147, 'reward_mean': 0.4796, 'reward_std': 0.7409, 'diff_correct': 0.9084, 'diff_incorrect': 0.6383}
+Val:   {'loss': 0.6356, 'binary_acc': 0.6615, 'weighted_f1': 0.6615, 'f1_B_win': 0.6612, 'f1_A_win': 0.6608, 'mean_signed_diff': 0.3226, 'mean_abs_diff': 0.6099, 'reward_mean': 0.3544, 'reward_std': 0.6804, 'diff_correct': 0.7063, 'diff_incorrect': 0.4191}
+  Saved best (val binary_acc=0.6615)
+/venv/main/lib/python3.12/site-packages/PIL/Image.py:1034: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+
+Epoch 3/15
+Train: {'loss': 0.5708, 'binary_acc': 0.7697, 'weighted_f1': 0.7698, 'f1_B_win': 0.7691, 'f1_A_win': 0.7659, 'mean_signed_diff': 0.7278, 'mean_abs_diff': 0.9984, 'reward_mean': 0.2735, 'reward_std': 0.9523, 'diff_correct': 1.1208, 'diff_incorrect': 0.5869}
+Val:   {'loss': 0.641, 'binary_acc': 0.6545, 'weighted_f1': 0.654, 'f1_B_win': 0.6596, 'f1_A_win': 0.6464, 'mean_signed_diff': 0.4586, 'mean_abs_diff': 0.8384, 'reward_mean': 0.4245, 'reward_std': 0.9321, 'diff_correct': 1.0004, 'diff_incorrect': 0.5585}
+  No improvement (1/5)
+/venv/main/lib/python3.12/site-packages/PIL/Image.py:1034: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+
+Epoch 4/15
+Train: {'loss': 0.4758, 'binary_acc': 0.8769, 'weighted_f1': 0.8768, 'f1_B_win': 0.8791, 'f1_A_win': 0.8696, 'mean_signed_diff': 1.2961, 'mean_abs_diff': 1.4251, 'reward_mean': 0.5455, 'reward_std': 1.2148, 'diff_correct': 1.5512, 'diff_incorrect': 0.5257}
+Val:   {'loss': 0.6651, 'binary_acc': 0.6654, 'weighted_f1': 0.6635, 'f1_B_win': 0.6591, 'f1_A_win': 0.665, 'mean_signed_diff': 0.5239, 'mean_abs_diff': 1.0292, 'reward_mean': 0.5843, 'reward_std': 1.0663, 'diff_correct': 1.1697, 'diff_incorrect': 0.7375}
+  Saved best (val binary_acc=0.6654)
+
+Epoch 5/15
+Train: {'loss': 0.4088, 'binary_acc': 0.9495, 'weighted_f1': 0.9495, 'f1_B_win': 0.9483, 'f1_A_win': 0.9485, 'mean_signed_diff': 1.8133, 'mean_abs_diff': 1.8595, 'reward_mean': 0.4459, 'reward_std': 1.4284, 'diff_correct': 1.934, 'diff_incorrect': 0.4872}
+Val:   {'loss': 0.6955, 'binary_acc': 0.6576, 'weighted_f1': 0.6571, 'f1_B_win': 0.6531, 'f1_A_win': 0.6593, 'mean_signed_diff': 0.5499, 'mean_abs_diff': 1.1705, 'reward_mean': 0.3158, 'reward_std': 1.1735, 'diff_correct': 1.3108, 'diff_incorrect': 0.8839}
+  No improvement (1/5)
+
+Epoch 6/15
+Train: {'loss': 0.3802, 'binary_acc': 0.9826, 'weighted_f1': 0.9826, 'f1_B_win': 0.9809, 'f1_A_win': 0.9835, 'mean_signed_diff': 2.1501, 'mean_abs_diff': 2.163, 'reward_mean': 0.2379, 'reward_std': 1.5407, 'diff_correct': 2.1943, 'diff_incorrect': 0.2447}
+Val:   {'loss': 0.6853, 'binary_acc': 0.6675, 'weighted_f1': 0.6659, 'f1_B_win': 0.6646, 'f1_A_win': 0.6643, 'mean_signed_diff': 0.5694, 'mean_abs_diff': 1.1568, 'reward_mean': 0.2946, 'reward_std': 1.1521, 'diff_correct': 1.2912, 'diff_incorrect': 0.864}
+  Saved best (val binary_acc=0.6675)
+
+Epoch 7/15
+Train: {'loss': 0.3701, 'binary_acc': 0.9849, 'weighted_f1': 0.9849, 'f1_B_win': 0.9846, 'f1_A_win': 0.985, 'mean_signed_diff': 2.1759, 'mean_abs_diff': 2.186, 'reward_mean': 0.303, 'reward_std': 1.5108, 'diff_correct': 2.2146, 'diff_incorrect': 0.1796}
+Val:   {'loss': 0.6987, 'binary_acc': 0.6528, 'weighted_f1': 0.6507, 'f1_B_win': 0.6536, 'f1_A_win': 0.6446, 'mean_signed_diff': 0.5428, 'mean_abs_diff': 1.1721, 'reward_mean': 0.3218, 'reward_std': 1.1289, 'diff_correct': 1.3136, 'diff_incorrect': 0.8839}
+  No improvement (1/5)
+
+Epoch 8/15
+Train: {'loss': 0.3613, 'binary_acc': 0.9937, 'weighted_f1': 0.9937, 'f1_B_win': 0.9937, 'f1_A_win': 0.9936, 'mean_signed_diff': 2.2051, 'mean_abs_diff': 2.2092, 'reward_mean': 0.3417, 'reward_std': 1.4946, 'diff_correct': 2.2215, 'diff_incorrect': 0.0922}
+Val:   {'loss': 0.6933, 'binary_acc': 0.6363, 'weighted_f1': 0.6347, 'f1_B_win': 0.6313, 'f1_A_win': 0.6352, 'mean_signed_diff': 0.5009, 'mean_abs_diff': 1.0984, 'reward_mean': 0.3485, 'reward_std': 1.0766, 'diff_correct': 1.2559, 'diff_incorrect': 0.8093}
+  No improvement (2/5)
+
+Epoch 9/15
+Train: {'loss': 0.3534, 'binary_acc': 0.9983, 'weighted_f1': 0.9983, 'f1_B_win': 0.9983, 'f1_A_win': 0.9982, 'mean_signed_diff': 2.2086, 'mean_abs_diff': 2.2094, 'reward_mean': 0.1632, 'reward_std': 1.473, 'diff_correct': 2.2129, 'diff_incorrect': 0.0261}
+Val:   {'loss': 0.6939, 'binary_acc': 0.6567, 'weighted_f1': 0.6552, 'f1_B_win': 0.6519, 'f1_A_win': 0.656, 'mean_signed_diff': 0.477, 'mean_abs_diff': 1.0687, 'reward_mean': 0.2948, 'reward_std': 1.0506, 'diff_correct': 1.1805, 'diff_incorrect': 0.8426}
+  No improvement (3/5)
+
+Epoch 10/15
+Train: {'loss': 0.3507, 'binary_acc': 0.9967, 'weighted_f1': 0.9967, 'f1_B_win': 0.9967, 'f1_A_win': 0.9966, 'mean_signed_diff': 2.2158, 'mean_abs_diff': 2.2176, 'reward_mean': 0.2388, 'reward_std': 1.4541, 'diff_correct': 2.2241, 'diff_incorrect': 0.056}
+Val:   {'loss': 0.6944, 'binary_acc': 0.6628, 'weighted_f1': 0.6606, 'f1_B_win': 0.6541, 'f1_A_win': 0.6643, 'mean_signed_diff': 0.4812, 'mean_abs_diff': 1.0797, 'reward_mean': 0.231, 'reward_std': 1.0601, 'diff_correct': 1.179, 'diff_incorrect': 0.8764}
+  No improvement (4/5)
+
+Epoch 11/15
+Train: {'loss': 0.3465, 'binary_acc': 0.9978, 'weighted_f1': 0.9978, 'f1_B_win': 0.9979, 'f1_A_win': 0.9975, 'mean_signed_diff': 2.2272, 'mean_abs_diff': 2.2292, 'reward_mean': 0.1234, 'reward_std': 1.4485, 'diff_correct': 2.2332, 'diff_incorrect': 0.0649}
+Val:   {'loss': 0.6847, 'binary_acc': 0.6675, 'weighted_f1': 0.6656, 'f1_B_win': 0.6606, 'f1_A_win': 0.6677, 'mean_signed_diff': 0.4943, 'mean_abs_diff': 1.0637, 'reward_mean': 0.1251, 'reward_std': 1.0306, 'diff_correct': 1.1667, 'diff_incorrect': 0.8372}
+  No improvement (5/5)
+Early stopping at epoch 11.
+
+Training done.
+Loading best model for test evaluation...
+=== nodef_large14_bt TEST ===
+{'loss': 0.6449, 'binary_acc': 0.7251, 'weighted_f1': 0.7229, 'f1_B_win': 0.711, 'f1_A_win': 0.7324, 'mean_signed_diff': 0.7437, 'mean_abs_diff': 1.2275, 'reward_mean': 0.4191, 'reward_std': 1.1638, 'diff_correct': 1.3654, 'diff_incorrect': 0.8697}

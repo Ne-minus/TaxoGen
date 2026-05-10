@@ -322,6 +322,69 @@ FLUX and Playground split 4 subsets each. Statistically robust (win rate ≥ 85%
 `predict_hypernym_llama` (Playground, 85%). The remaining 5 subsets have overlapping CIs
 — fewer wids (27–85) make the winner uncertain.
 
+### Without-definition model (clip-vit-large-patch14, BT loss)
+
+Same hyperparameters as `best_fixed_labels` but prompt = `"An image of {core_synset}"`
+(no definition). Flag: `--no_definition`. Checkpoint: `clip_nodef_ckpt/best_nodef_large14_bt.pt`.
+
+| | With definition | Without definition |
+|---|---|---|
+| Best val acc | 67.14% | 66.75% |
+| **Test acc** | 72.26% | **72.51%** |
+| Test wF1 | 0.722 | 0.723 |
+| Early stopping epoch | 6 | 6 |
+
+Without definition is marginally better on test (+0.25 pp). Training dynamics differ:
+train acc reaches 99%+ by epoch 5 (faster memorisation without the definition anchor),
+but val continues to improve slowly through epoch 11.
+
+#### Global ranking by mean reward (without definition)
+
+| Rank | Model | Mean reward | Median reward |
+|---|---|---|---|
+| 1 | Playground | 0.952 | 1.014 |
+| 2 | FLUX | 0.938 | 0.927 |
+| 3 | PixArt | 0.715 | 0.708 |
+| 4 | HunyuanDiT | 0.612 | 0.657 |
+| 5 | Kandinsky3 | 0.579 | 0.632 |
+| 6 | SDXL | 0.403 | 0.434 |
+| 7 | SDXL-turbo | 0.313 | 0.367 |
+| 8 | SD3 | 0.244 | 0.326 |
+| 9 | DeepFloyd | 0.027 | 0.081 |
+| 10 | Retrieval | −0.040 | −0.013 |
+| 11 | Openjourney | −0.462 | −0.510 |
+| 12 | SD 1.5 | −0.521 | −0.571 |
+
+#### Best model per subset (without definition, B=2000 bootstrap)
+
+| Subset | n wids | Best model | Mean | 95% CI | Win rate | Runner-up | Runner-up 95% CI |
+|---|---|---|---|---|---|---|---|
+| `appendix` | 85 | FLUX | 1.087 | [0.868, 1.298] | 49% | Playground | [0.817, 1.242] |
+| `appendix_llama` | 85 | **FLUX** | 1.253 | [1.008, 1.492] | **97%** | Kandinsky3 | [0.726, 1.248] |
+| `leafs_and_no_leafs` | 34 | FLUX | 1.049 | [0.656, 1.407] | 65% | Playground | [0.662, 1.250] |
+| `leafs_and_no_leafs_llama` | 36 | Playground | 0.758 | [0.421, 1.092] | 56% | FLUX | [0.429, 1.031] |
+| `predict_hypernym` | 142 | **Playground** | 1.061 | [0.885, 1.220] | **96%** | FLUX | [0.735, 1.056] |
+| `predict_hypernym_llama` | 139 | **Playground** | 0.868 | [0.715, 1.024] | **80%** | FLUX | [0.634, 0.907] |
+| `simple_triplet_2parent` | 27 | **Playground** | 1.070 | [0.673, 1.429] | **92%** | FLUX | [0.348, 1.164] |
+| `simple_triplet_2parent_llama` | 29 | FLUX | 0.857 | [0.453, 1.268] | 72% | Playground | [0.447, 1.034] |
+
+#### Comparison: with vs without definition
+
+| Subset | With def (best / win rate) | Without def (best / win rate) |
+|---|---|---|
+| `appendix` | FLUX / 38% | FLUX / 49% |
+| `appendix_llama` | FLUX / 96% | FLUX / **97%** |
+| `leafs_and_no_leafs` | FLUX / 67% | FLUX / 65% |
+| `leafs_and_no_leafs_llama` | FLUX / 59% | Playground / 56% |
+| `predict_hypernym` | Playground / **98%** | Playground / 96% |
+| `predict_hypernym_llama` | Playground / 85% | Playground / **80%** |
+| `simple_triplet_2parent` | Playground / 74% | Playground / **92%** |
+| `simple_triplet_2parent_llama` | FLUX / 75% | FLUX / 72% |
+
+Both models agree on the winner in 7/8 subsets. Only `leafs_and_no_leafs_llama` flips
+(FLUX→Playground, both ~55-59%). Without-definition model is more decisive on
+`simple_triplet_2parent` (92% vs 74%).
+
 ### LoRA fine-tuning sweep (base-patch32 & large-patch14, BT loss)
 
 Instead of unfreezing top layers, LoRA adapters are injected into `q_proj` and `v_proj`

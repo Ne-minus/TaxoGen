@@ -81,7 +81,9 @@ def main():
     ap.add_argument("--meta_csv",    default="splits/wordnet_meta.csv")
     ap.add_argument("--wids_filter", default=None,
                     help="File with one wordnet_id per line (to restrict to test split)")
-    ap.add_argument("--out_csv",     default="scores_collected.csv")
+    ap.add_argument("--out_csv",        default="scores_collected.csv")
+    ap.add_argument("--no_definition",  action="store_true",
+                    help="Use 'An image of {core_synset}' without definition")
     ap.add_argument("--batch_size",  type=int, default=32)
     ap.add_argument("--num_workers", type=int, default=4)
     args = ap.parse_args()
@@ -98,10 +100,16 @@ def main():
     # Prompts
     meta = pd.read_csv(args.meta_csv)
     meta["wordnet_id"] = meta["wordnet_id"].astype(str)
-    wid_to_prompt = {
-        r["wordnet_id"]: f"An image of {r['core_synset']} ({r['definition']})"
-        for _, r in meta.iterrows()
-    }
+    if args.no_definition:
+        wid_to_prompt = {
+            r["wordnet_id"]: f"An image of {r['core_synset']}"
+            for _, r in meta.iterrows()
+        }
+    else:
+        wid_to_prompt = {
+            r["wordnet_id"]: f"An image of {r['core_synset']} ({r['definition']})"
+            for _, r in meta.iterrows()
+        }
 
     if args.wids_filter:
         with open(args.wids_filter) as f:
