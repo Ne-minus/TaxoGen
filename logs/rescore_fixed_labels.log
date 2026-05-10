@@ -1,0 +1,31 @@
+Device: cuda
+Backbone: openai/clip-vit-large-patch14  |  epoch: 6  |  val_acc: 0.6714
+Filtered to 577 wids
+Model dirs: ['DeepFloyd_IF-I-XL-v1.0', 'PixArt-alpha_PixArt-Sigma-XL-2-512-MS', 'Tencent-Hunyuan_HunyuanDiT-v1.2-Diffusers', 'black-forest-labs_FLUX.1-dev', 'kandinsky-community_kandinsky-3', 'playgroundai_playground-v2.5-1024px-aesthetic', 'prompthero_openjourney', 'retrieval', 'runwayml_stable-diffusion-v1-5', 'splits', 'stabilityai_sdxl-turbo', 'stabilityai_stable-diffusion-3-medium-diffusers', 'stabilityai_stable-diffusion-xl-base-1.0']
+Images to score: 1527
+Missing: 5974 (model, wid) pairs
+  DeepFloyd_IF-I-XL-v1.0 / 138508
+  DeepFloyd_IF-I-XL-v1.0 / 192051
+  DeepFloyd_IF-I-XL-v1.0 / 213186
+  DeepFloyd_IF-I-XL-v1.0 / 232386
+  DeepFloyd_IF-I-XL-v1.0 / 258857
+Loading weights:   0%|          | 0/590 [00:00<?, ?it/s]Loading weights: 100%|██████████| 590/590 [00:00<00:00, 15672.69it/s]
+  1280 / 1527
+
+Saved 1527 rows → scores_collected.csv
+
+Per-model stats (sorted by median):
+                                                 count    median      mean
+model                                                                     
+prompthero_openjourney                             106 -0.882741 -0.707478
+runwayml_stable-diffusion-v1-5                      99 -0.806876 -0.754317
+retrieval                                          115 -0.172850 -0.174288
+stabilityai_sdxl-turbo                             119  0.050944  0.086100
+deepfloyd_if-i-xl-v1.0                             117  0.066324  0.063071
+stabilityai_stable-diffusion-3-medium-diffusers    126  0.183980  0.062195
+stabilityai_stable-diffusion-xl-base-1.0           119  0.311156  0.254230
+pixart-alpha_pixart-sigma-xl-2-512-ms              137  0.453073  0.480797
+tencent-hunyuan_hunyuandit-v1.2-diffusers          134  0.676146  0.636508
+kandinsky-community_kandinsky-3                    119  0.710150  0.624243
+black-forest-labs_flux.1-dev                       201  0.825289  0.842159
+playgroundai_playground-v2.5-1024px-aesthetic      135  0.948664  0.880085

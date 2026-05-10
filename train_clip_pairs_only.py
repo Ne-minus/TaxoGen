@@ -245,6 +245,28 @@ class CLIPRewardModel(nn.Module):
                 for p in layer.parameters():
                     p.requires_grad = True
 
+    def apply_lora(self, r: int = 8, alpha: int = 16, dropout: float = 0.05,
+                   target_modules: List[str] = None) -> None:
+        try:
+            from peft import LoraConfig, get_peft_model
+        except ImportError:
+            raise ImportError("Install peft: pip install peft")
+        if target_modules is None:
+            target_modules = ["q_proj", "v_proj"]
+        lora_cfg = LoraConfig(
+            r=r,
+            lora_alpha=alpha,
+            target_modules=target_modules,
+            lora_dropout=dropout,
+            bias="none",
+        )
+        self.clip = get_peft_model(self.clip, lora_cfg)
+        # projections оставляем обучаемыми
+        for p in self.clip.base_model.model.visual_projection.parameters():
+            p.requires_grad = True
+        for p in self.clip.base_model.model.text_projection.parameters():
+            p.requires_grad = True
+
     def encode(self, input_ids, attention_mask, pixel_values) -> torch.Tensor:
         out = self.clip(
             input_ids=input_ids,
@@ -448,6 +470,14 @@ def main():
     p.add_argument("--freeze_backbone",              action="store_true")
     p.add_argument("--unfreeze_top_vision_layers",   type=int, default=2)
     p.add_argument("--unfreeze_top_text_layers",     type=int, default=2)
+    # LoRA (альтернатива unfreeze_top_layers)
+    p.add_argument("--use_lora",            action="store_true",
+                   help="Использовать LoRA вместо разморозки слоёв")
+    p.add_argument("--lora_r",              type=int,   default=8)
+    p.add_argument("--lora_alpha",          type=int,   default=16)
+    p.add_argument("--lora_dropout",        type=float, default=0.05)
+    p.add_argument("--lora_target_modules", type=str,   default="q_proj,v_proj",
+                   help="Через запятую: q_proj,v_proj,out_proj,fc1,fc2")
     # Misc
     p.add_argument("--seed",                     type=int, default=42)
     p.add_argument("--num_workers",              type=int, default=4)
@@ -503,7 +533,15 @@ def main():
 
     model = CLIPRewardModel(model_name=args.model_name, dropout=args.dropout)
 
-    if args.freeze_backbone:
+    if args.use_lora:
+        model.freeze_backbone()
+        model.apply_lora(
+            r=args.lora_r,
+            alpha=args.lora_alpha,
+            dropout=args.lora_dropout,
+            target_modules=args.lora_target_modules.split(","),
+        )
+    elif args.freeze_backbone:
         model.freeze_backbone()
         model.unfreeze_top_layers(
             num_text=args.unfreeze_top_text_layers,

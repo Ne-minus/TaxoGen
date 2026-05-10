@@ -277,6 +277,104 @@ Bootstrap resamples prompts, n=200. Spearman ρ = **+0.944** vs human ELO.
 | Openjourney | 820.0 | [802.0, 838.9] | 907 |
 | SD1.5 | 799.3 | [781.1, 816.8] | 901 |
 
+### Per-subset best model (scores_collected.csv)
+
+Scored with `score_collected.py` using checkpoint `best_fixed_labels.pt`
+(clip-vit-large-patch14, BT loss, dropout=0.5, label_smoothing=0.1, **trained with definitions** —
+prompt format: `"An image of {core_synset} ({definition})"`).
+
+#### Global ranking by mean reward
+
+| Rank | Model | Mean reward | Median reward |
+|---|---|---|---|
+| 1 | Playground | 0.880 | 0.949 |
+| 2 | FLUX | 0.842 | 0.825 |
+| 3 | HunyuanDiT | 0.637 | 0.676 |
+| 4 | Kandinsky3 | 0.624 | 0.710 |
+| 5 | PixArt | 0.481 | 0.453 |
+| 6 | SDXL | 0.254 | 0.311 |
+| 7 | SDXL-turbo | 0.086 | 0.051 |
+| 8 | DeepFloyd | 0.063 | 0.066 |
+| 9 | SD3 | 0.062 | 0.184 |
+| 10 | Retrieval | −0.174 | −0.173 |
+| 11 | Openjourney | −0.708 | −0.883 |
+| 12 | SD 1.5 | −0.754 | −0.807 |
+
+#### Best model per subset (mean reward on test wordnet_ids)
+
+Scored from `collected_wordnet_images/` (6905 rows, 577 wids × 12 models, 19 retrieval pairs missing).
+Bootstrap CIs over wordnet_ids (B=2000, resample prompts with replacement).
+Win rate = fraction of bootstrap samples where the listed model ranks first.
+
+| Subset | n wids | Best model | Mean | 95% CI | Win rate | Runner-up | Runner-up 95% CI |
+|---|---|---|---|---|---|---|---|
+| `appendix` | 85 | FLUX | 0.931 | [0.706, 1.139] | 38% | Playground | [0.683, 1.123] |
+| `appendix_llama` | 85 | **FLUX** | 1.141 | [0.890, 1.390] | **96%** | Kandinsky3 | [0.615, 1.122] |
+| `leafs_and_no_leafs` | 34 | FLUX | 0.961 | [0.597, 1.308] | 67% | Playground | [0.571, 1.151] |
+| `leafs_and_no_leafs_llama` | 36 | FLUX | 0.730 | [0.458, 1.001] | 59% | Playground | [0.342, 1.006] |
+| `predict_hypernym` | 142 | **Playground** | 0.949 | [0.774, 1.112] | **98%** | FLUX | [0.602, 0.925] |
+| `predict_hypernym_llama` | 139 | **Playground** | 0.851 | [0.694, 1.009] | **85%** | FLUX | [0.606, 0.879] |
+| `simple_triplet_2parent` | 27 | Playground | 0.762 | [0.347, 1.129] | 74% | FLUX | [0.228, 1.017] |
+| `simple_triplet_2parent_llama` | 29 | FLUX | 0.832 | [0.444, 1.218] | 75% | Playground | [0.356, 1.027] |
+
+FLUX and Playground split 4 subsets each. Statistically robust (win rate ≥ 85%):
+`appendix_llama` (FLUX, 96%), `predict_hypernym` (Playground, 98%),
+`predict_hypernym_llama` (Playground, 85%). The remaining 5 subsets have overlapping CIs
+— fewer wids (27–85) make the winner uncertain.
+
+### LoRA fine-tuning sweep (base-patch32 & large-patch14, BT loss)
+
+Instead of unfreezing top layers, LoRA adapters are injected into `q_proj` and `v_proj`
+of all attention layers via `peft`. Base weights are fully frozen; only LoRA params +
+`visual_projection` + `text_projection` + reward head are trained.
+
+**Setup:** `train_clip_pairs_only.py --use_lora`, splits in `splits/`, images in `../TaxoGen_sampled/`.
+
+#### Hyperparameter search (base-patch32, BT loss)
+
+| Run | lora_r | lora_alpha | lora_dropout | weight_decay | lr | label_smooth | early_stop | best val acc | **test acc** |
+|---|---|---|---|---|---|---|---|---|---|
+| v1 | 8 | 16 | 0.05 | 0.01 | 3e-5 | 0.0 | 5 | 0.679 | — |
+| v2 | 8 | 16 | 0.15 | 0.05 | 3e-5 | 0.0 | 5 | 0.683 | — |
+| **v3** | **8** | **16** | **0.15** | **0.05** | **1e-5** | **0.1** | **3** | **0.688** | **0.7125** |
+| r16 | 16 | 32 | 0.15 | 0.05 | 1e-5 | 0.1 | 3 | 0.696 | 0.7068 |
+
+Trainable params: v1–v3 = **1,153,025** / 151,774,978 (0.76%); r16 = **1,644,545** (1.08%).
+
+#### Model size comparison (best hyperparams from v3)
+
+| Model | lora_r | Trainable | best val acc | **test acc** |
+|---|---|---|---|---|
+| **base-patch32 (v3)** | **8** | **1.15 M** | **0.688** | **0.7125** |
+| base-patch32 | 16 | 1.64 M | 0.696 | 0.7068 |
+| large-patch14 | 8 | 2.47 M | 0.696 | 0.7066 |
+
+**Best LoRA checkpoint:** `clip_pairs_only_ckpt/best_clip_bt_lora_v3.pt`
+(base-patch32, r=8, test acc **71.25%**).
+
+Key observations:
+- `lr=3e-5` causes rapid overfitting (train/val split +15 pp by epoch 4–5); dropping to
+  `lr=1e-5` with cosine warmup lets the model converge smoothly over 7 epochs.
+- Label smoothing alone at `lr=3e-5` did not help (same overfitting pattern); combined
+  with slow lr it stabilises training noticeably.
+- `r=16` achieves higher val acc (0.696 vs 0.688) but generalises slightly worse on test —
+  the extra capacity memorises val-specific patterns.
+- `large-patch14` follows the same pattern: needs more epochs to warm up (peak at epoch 9
+  vs epoch 4 for base), achieves similar val acc but does not beat base on test.
+- All LoRA runs early-stopped at epoch 7 (patience 3), consistent across configurations.
+
+#### LoRA vs freeze/unfreeze (best of each approach)
+
+| Approach | Model | test acc |
+|---|---|---|
+| Freeze + unfreeze top 2 layers | large-patch14, BT | 0.731 |
+| Freeze + unfreeze + dropout=0.5 + ls=0.1 | large-patch14, BT | **0.749** |
+| **LoRA r=8** | **base-patch32, BT** | **0.7125** |
+| LoRA r=8 | large-patch14, BT | 0.7066 |
+
+LoRA (0.76% of params) falls ~3-4 pp behind the best freeze/unfreeze run, but trains
+faster, uses less memory, and requires no manual layer-count tuning.
+
 ## Notes on training dynamics
 
 The pure margin loss (`ReLU(margin − signed_diff)`) does not show a continuously

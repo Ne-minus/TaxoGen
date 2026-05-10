@@ -1,0 +1,36 @@
+=== clip_bt_lora | model=openai/clip-vit-base-patch32 | loss=bt | margin=0.5 | lr=3e-05 | unfreeze_vis=2 | unfreeze_txt=2 ===
+Device: cuda
+[train.csv] kept 1780/2970 pair rows (dropped Tie/BothBad); distribution: {1.0: 893, 0.0: 887}
+[val.csv] kept 228/397 pair rows (dropped Tie/BothBad); distribution: {0.0: 116, 1.0: 112}
+[test.csv] kept 351/594 pair rows (dropped Tie/BothBad); distribution: {1.0: 180, 0.0: 171}
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 55138.99it/s]
+Trainable: 1,153,025 / 151,774,978
+/venv/main/lib/python3.12/site-packages/PIL/Image.py:1034: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+
+Epoch 1/10
+Train: {'loss': 0.7122, 'binary_acc': 0.5223, 'weighted_f1': 0.5249, 'f1_B_win': 0.4929, 'f1_A_win': 0.5068, 'mean_signed_diff': 0.0406, 'mean_abs_diff': 0.4518, 'reward_mean': 0.1025, 'reward_std': 0.4797, 'diff_correct': 0.4663, 'diff_incorrect': 0.4307}
+Val:   {'loss': 0.6405, 'binary_acc': 0.6458, 'weighted_f1': 0.6458, 'f1_B_win': 0.643, 'f1_A_win': 0.6088, 'mean_signed_diff': 0.1836, 'mean_abs_diff': 0.4567, 'reward_mean': 0.2497, 'reward_std': 0.4778, 'diff_correct': 0.5028, 'diff_incorrect': 0.3866}
+  Saved best (val binary_acc=0.6458)
+
+Epoch 2/10
+Train: {'loss': 0.6032, 'binary_acc': 0.6635, 'weighted_f1': 0.6627, 'f1_B_win': 0.6452, 'f1_A_win': 0.6544, 'mean_signed_diff': 0.3646, 'mean_abs_diff': 0.7119, 'reward_mean': 0.362, 'reward_std': 0.7002, 'diff_correct': 0.814, 'diff_incorrect': 0.5114}
+Val:   {'loss': 0.6239, 'binary_acc': 0.6792, 'weighted_f1': 0.6725, 'f1_B_win': 0.671, 'f1_A_win': 0.6208, 'mean_signed_diff': 0.3142, 'mean_abs_diff': 0.7037, 'reward_mean': 0.3586, 'reward_std': 0.7475, 'diff_correct': 0.7571, 'diff_incorrect': 0.604}
+  Saved best (val binary_acc=0.6792)
+/venv/main/lib/python3.12/site-packages/PIL/Image.py:1034: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+
+Epoch 3/10
+Train: {'loss': 0.5326, 'binary_acc': 0.7305, 'weighted_f1': 0.7299, 'f1_B_win': 0.7152, 'f1_A_win': 0.7171, 'mean_signed_diff': 0.6469, 'mean_abs_diff': 0.9747, 'reward_mean': 0.1497, 'reward_std': 0.9474, 'diff_correct': 1.1072, 'diff_incorrect': 0.5951}
+Val:   {'loss': 0.6157, 'binary_acc': 0.6667, 'weighted_f1': 0.6554, 'f1_B_win': 0.6419, 'f1_A_win': 0.6143, 'mean_signed_diff': 0.4259, 'mean_abs_diff': 0.8876, 'reward_mean': 0.21, 'reward_std': 0.9556, 'diff_correct': 1.0013, 'diff_incorrect': 0.7086}
+  No improvement (1/5)
+
+Epoch 4/10
+Train: {'loss': 0.481, 'binary_acc': 0.7695, 'weighted_f1': 0.7699, 'f1_B_win': 0.7541, 'f1_A_win': 0.7634, 'mean_signed_diff': 0.8705, 'mean_abs_diff': 1.173, 'reward_mean': 0.0096, 'reward_std': 1.141, 'diff_correct': 1.3257, 'diff_incorrect': 0.6602}
+Val:   {'loss': 0.6213, 'binary_acc': 0.6625, 'weighted_f1': 0.6498, 'f1_B_win': 0.6298, 'f1_A_win': 0.618, 'mean_signed_diff': 0.4789, 'mean_abs_diff': 0.9953, 'reward_mean': -0.1104, 'reward_std': 1.0818, 'diff_correct': 1.128, 'diff_incorrect': 0.8111}
+  No improvement (2/5)
+
+Epoch 5/10
+Train: {'loss': 0.4107, 'binary_acc': 0.8114, 'weighted_f1': 0.8121, 'f1_B_win': 0.7981, 'f1_A_win': 0.8053, 'mean_signed_diff': 1.1548, 'mean_abs_diff': 1.3921, 'reward_mean': -0.3326, 'reward_std': 1.314, 'diff_correct': 1.5638, 'diff_incorrect': 0.602}
+Val:   {'loss': 0.6304, 'binary_acc': 0.6625, 'weighted_f1': 0.6498, 'f1_B_win': 0.6368, 'f1_A_win': 0.609, 'mean_signed_diff': 0.5587, 'mean_abs_diff': 1.1494, 'reward_mean': -0.2545, 'reward_std': 1.25, 'diff_correct': 1.3002, 'diff_incorrect': 0.8887}
+  No improvement (3/5)
