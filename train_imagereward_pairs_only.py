@@ -57,7 +57,9 @@ def normalize_label(x):
         x = int(x)
     except Exception:
         return None
-    return x if x in [0, 1] else None   # drop Tie (2) and BothBad (3)
+    if x == 0: return 1  # arena 0=A_win → label 1=A_win
+    if x == 1: return 0  # arena 1=B_win → label 0=B_win
+    return None           # drop Tie (2) and BothBad (3)
 
 
 def set_seed(seed: int) -> None:

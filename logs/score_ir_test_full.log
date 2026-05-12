@@ -1,0 +1,32 @@
+Loading ImageReward...
+load checkpoint from /root/.cache/ImageReward/ImageReward.pt
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+checkpoint loaded
+Models: 12, Test WN IDs: 505
+  1000/6060 (16.5%), scored=1000
+  2000/6060 (33.0%), scored=2000
+  3000/6060 (49.5%), scored=3000
+  4000/6060 (66.0%), scored=3991
+  5000/6060 (82.5%), scored=4990
+  6000/6060 (99.0%), scored=5990
+Saved 6050 rows
+
+Metric            ρ point    p-value   95% CI             n_boot=1000
+----------------------------------------------------------------
+  median          +0.587    p=0.045*   [+0.524, +0.671]
+  mean            +0.615    p=0.033*   [+0.573, +0.678]
+
+Model           ELO  rk_ELO  rk_IR  Δ   median_reward
+--------------------------------------------------------
+  FLUX          1085      1       9  +8   -0.079 ←
+  Playground    1058      2       1  -1   +0.595
+  PixArt        1043      3       2  -1   +0.217
+  SDXL          1027      4       8  +4   -0.039 ←
+  Kandinsky3    1017      5       5  +0   +0.118
+  HDiT          1013      6       3  -3   +0.182 ←
+  SDXL-turbo    1011      7       4  -3   +0.143 ←
+  DeepFloyd      993      8       7  -1   +0.036
+  SD3            990      9       6  -3   +0.062 ←
+  Retrieval      950     10      12  +2   -0.795
+  Openjourney    907     11      11  +0   -0.364
+  SD1.5          901     12      10  -2   -0.351

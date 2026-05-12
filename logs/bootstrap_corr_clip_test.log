@@ -1,0 +1,25 @@
+CLIP: 505 WN IDs, 12 models, 1206 rows
+
+Metric                  ρ point    p-value   95% CI             n_boot=1000
+------------------------------------------------------------------
+  Median reward         +0.881    p=0.000*   [+0.783, +0.944]
+  Mean reward           +0.916    p=0.000*   [+0.797, +0.951]
+  Mean rank             -0.860    p=0.000*   [-0.895, -0.294]
+  Win@1 fraction        +0.897    p=0.000*   [+0.413, +0.909]
+
+Model           ELO  rk_ELO  rk_CLIP  Δ   median_reward
+----------------------------------------------------------
+  FLUX          1085      1        1  +0   +0.651
+  Playground    1058      2        2  +0   +0.626
+  PixArt        1043      3        4  +1   +0.354
+  SDXL          1027      4        8  +4   -0.086 ←
+  Kandinsky3    1017      5        5  +0   +0.174
+  HDiT          1013      6        3  -3   +0.394 ←
+  SDXL-turbo    1011      7        6  -1   +0.064
+  DeepFloyd      993      8        9  +1   -0.231
+  SD3            990      9        7  -2   -0.007
+  Retrieval      950     10       10  +0   -0.421
+  Openjourney    907     11       12  +1   -0.848
+  SD1.5          901     12       11  -1   -0.738
+
+Saved → /workspace/TaxoGen/bootstrap_corr_clip_test.png

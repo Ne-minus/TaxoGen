@@ -1,0 +1,44 @@
+=== lomo_stabilityai_stable_diffusion_xl_base_1_0_large14_bt_ls01_drop05 | model=openai/clip-vit-large-patch14 | loss=bt | margin=0.5 | lr=3e-05 | unfreeze_vis=2 | unfreeze_txt=2 ===
+Device: cuda
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[train.csv] kept 1497/2480 pair rows (dropped Tie/BothBad); distribution: {1.0: 755, 0.0: 742}
+[val.csv] kept 194/315 pair rows (dropped Tie/BothBad); distribution: {0.0: 101, 1.0: 93}
+[test.csv] kept 64/113 pair rows (dropped Tie/BothBad); distribution: {1.0: 34, 0.0: 30}
+Loading weights:   0%|          | 0/590 [00:00<?, ?it/s]Loading weights:  64%|██████▍   | 379/590 [00:00<00:00, 3786.67it/s]Loading weights: 100%|██████████| 590/590 [00:00<00:00, 3844.75it/s]
+Trainable: 40,753,665 / 427,625,730
+
+Epoch 1/15
+Train: {'loss': 0.7578, 'binary_acc': 0.5318, 'weighted_f1': 0.5317, 'f1_B_win': 0.5232, 'f1_A_win': 0.5184, 'mean_signed_diff': 0.0616, 'mean_abs_diff': 0.702, 'reward_mean': 0.5757, 'reward_std': 0.6708, 'diff_correct': 0.71, 'diff_incorrect': 0.6792}
+Val:   {'loss': 0.6587, 'binary_acc': 0.6442, 'weighted_f1': 0.6592, 'f1_B_win': 0.6531, 'f1_A_win': 0.5857, 'mean_signed_diff': 0.2103, 'mean_abs_diff': 0.5148, 'reward_mean': 0.6595, 'reward_std': 0.5178, 'diff_correct': 0.563, 'diff_incorrect': 0.4263}
+  Saved best (val binary_acc=0.6442)
+
+Epoch 2/15
+Train: {'loss': 0.6303, 'binary_acc': 0.7011, 'weighted_f1': 0.7012, 'f1_B_win': 0.6951, 'f1_A_win': 0.6805, 'mean_signed_diff': 0.5387, 'mean_abs_diff': 0.9311, 'reward_mean': 0.2876, 'reward_std': 0.9101, 'diff_correct': 1.0532, 'diff_incorrect': 0.6481}
+Val:   {'loss': 0.6328, 'binary_acc': 0.625, 'weighted_f1': 0.624, 'f1_B_win': 0.6011, 'f1_A_win': 0.6121, 'mean_signed_diff': 0.4322, 'mean_abs_diff': 0.7826, 'reward_mean': 0.1887, 'reward_std': 0.8556, 'diff_correct': 0.9064, 'diff_incorrect': 0.512}
+  No improvement (1/5)
+
+Epoch 3/15
+Train: {'loss': 0.4856, 'binary_acc': 0.8592, 'weighted_f1': 0.859, 'f1_B_win': 0.8465, 'f1_A_win': 0.8549, 'mean_signed_diff': 1.3449, 'mean_abs_diff': 1.5064, 'reward_mean': 0.2713, 'reward_std': 1.3498, 'diff_correct': 1.6595, 'diff_incorrect': 0.5564}
+Val:   {'loss': 0.6901, 'binary_acc': 0.6202, 'weighted_f1': 0.6196, 'f1_B_win': 0.5976, 'f1_A_win': 0.6079, 'mean_signed_diff': 0.4663, 'mean_abs_diff': 1.0594, 'reward_mean': 0.094, 'reward_std': 1.0551, 'diff_correct': 1.1462, 'diff_incorrect': 0.785}
+  No improvement (2/5)
+
+Epoch 4/15
+Train: {'loss': 0.4114, 'binary_acc': 0.9475, 'weighted_f1': 0.9481, 'f1_B_win': 0.9463, 'f1_A_win': 0.939, 'mean_signed_diff': 1.967, 'mean_abs_diff': 2.0299, 'reward_mean': -0.1755, 'reward_std': 1.5546, 'diff_correct': 2.1119, 'diff_incorrect': 0.3424}
+Val:   {'loss': 0.6773, 'binary_acc': 0.6346, 'weighted_f1': 0.6358, 'f1_B_win': 0.6215, 'f1_A_win': 0.6193, 'mean_signed_diff': 0.5848, 'mean_abs_diff': 1.1425, 'reward_mean': -0.319, 'reward_std': 1.1141, 'diff_correct': 1.265, 'diff_incorrect': 0.7932}
+  No improvement (3/5)
+
+Epoch 5/15
+Train: {'loss': 0.381, 'binary_acc': 0.982, 'weighted_f1': 0.9819, 'f1_B_win': 0.9807, 'f1_A_win': 0.9806, 'mean_signed_diff': 2.1108, 'mean_abs_diff': 2.1223, 'reward_mean': -0.3896, 'reward_std': 1.5692, 'diff_correct': 2.1539, 'diff_incorrect': 0.0848}
+Val:   {'loss': 0.6794, 'binary_acc': 0.5962, 'weighted_f1': 0.5958, 'f1_B_win': 0.5774, 'f1_A_win': 0.5811, 'mean_signed_diff': 0.587, 'mean_abs_diff': 1.1419, 'reward_mean': -0.1355, 'reward_std': 1.1639, 'diff_correct': 1.34, 'diff_incorrect': 0.739}
+  No improvement (4/5)
+
+Epoch 6/15
+Train: {'loss': 0.3703, 'binary_acc': 0.992, 'weighted_f1': 0.992, 'f1_B_win': 0.9913, 'f1_A_win': 0.9919, 'mean_signed_diff': 2.163, 'mean_abs_diff': 2.171, 'reward_mean': -0.382, 'reward_std': 1.5518, 'diff_correct': 2.185, 'diff_incorrect': 0.0553}
+Val:   {'loss': 0.726, 'binary_acc': 0.5865, 'weighted_f1': 0.5862, 'f1_B_win': 0.5725, 'f1_A_win': 0.5702, 'mean_signed_diff': 0.5016, 'mean_abs_diff': 1.2117, 'reward_mean': -0.5005, 'reward_std': 1.1559, 'diff_correct': 1.3473, 'diff_incorrect': 0.8396}
+  No improvement (5/5)
+Early stopping at epoch 6.
+
+Training done.
+Loading best model for test evaluation...
+=== lomo_stabilityai_stable_diffusion_xl_base_1_0_large14_bt_ls01_drop05 TEST ===
+{'loss': 0.6927, 'binary_acc': 0.5781, 'weighted_f1': 0.5843, 'f1_B_win': 0.5992, 'f1_A_win': 0.4746, 'mean_signed_diff': 0.1301, 'mean_abs_diff': 0.4895, 'reward_mean': 0.6415, 'reward_std': 0.5022, 'diff_correct': 0.508, 'diff_incorrect': 0.4488}

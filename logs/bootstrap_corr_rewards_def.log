@@ -1,0 +1,22 @@
+  retrieval: 33 NaN values
+Common with ELO: 11 / 12
+Missing: ['black-forest-labs_flux.1-dev']
+
+Metric            ρ point    p-value   95% CI             n_boot=1000
+----------------------------------------------------------------
+  median          +0.700    p=0.016*   [+0.672, +0.773]
+  mean            +0.773    p=0.005*   [+0.745, +0.800]
+
+Model           ELO  rk_ELO  rk_IR  Δ   median_reward
+--------------------------------------------------------
+  Playground    1058      1       1  +0   +0.048
+  PixArt        1043      2       3  +1   -0.256
+  SDXL          1027      3       8  +5   -0.590 ←
+  Kandinsky3    1017      4       4  +0   -0.285
+  HDiT          1013      5       7  +2   -0.436
+  SDXL-turbo    1011      6       5  -1   -0.338
+  DeepFloyd      993      7       2  -5   -0.244 ←
+  SD3            990      8       6  -2   -0.362
+  Retrieval      950      9      11  +2   -1.077
+  Openjourney    907     10       9  -1   -0.872
+  SD1.5          901     11      10  -1   -0.919

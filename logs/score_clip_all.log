@@ -1,0 +1,28 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/590 [00:00<?, ?it/s]Loading weights:  66%|██████▌   | 390/590 [00:00<00:00, 3870.20it/s]Loading weights: 100%|██████████| 590/590 [00:00<00:00, 3827.88it/s]
+Loaded: openai/clip-vit-large-patch14
+Total unique WN IDs: 3356
+Model dirs: ['DeepFloyd_IF-I-XL-v1.0', 'PixArt-alpha_PixArt-Sigma-XL-2-512-MS', 'Tencent-Hunyuan_HunyuanDiT-v1.2-Diffusers', 'black-forest-labs_FLUX.1-dev', 'kandinsky-community_kandinsky-3', 'playgroundai_playground-v2.5-1024px-aesthetic', 'prompthero_openjourney', 'retrieval', 'runwayml_stable-diffusion-v1-5', 'stabilityai_sdxl-turbo', 'stabilityai_stable-diffusion-3-medium-diffusers', 'stabilityai_stable-diffusion-xl-base-1.0']
+  4000/40272 (9.9%), scored=830
+  10000/40272 (24.8%), scored=2052
+  26000/40272 (64.6%), scored=5084
+/venv/main/lib/python3.12/site-packages/PIL/Image.py:1034: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+
+Saved 7844 rows -> /workspace/TaxoGen/scores_clip_clean.csv
+
+Per-model count:
+                                                 count    median      mean
+model                                                                     
+prompthero_openjourney                             625 -1.057718 -0.902925
+runwayml_stable-diffusion-v1-5                     636 -1.047409 -0.904636
+retrieval                                          618 -0.475852 -0.426160
+stabilityai_sdxl-turbo                             645 -0.220531 -0.221805
+deepfloyd_if-i-xl-v1.0                             690 -0.212103 -0.288258
+stabilityai_stable-diffusion-3-medium-diffusers    658 -0.145757 -0.177749
+stabilityai_stable-diffusion-xl-base-1.0           664  0.024853  0.028018
+kandinsky-community_kandinsky-3                    685  0.137617  0.033990
+tencent-hunyuan_hunyuandit-v1.2-diffusers          668  0.321133  0.241805
+pixart-alpha_pixart-sigma-xl-2-512-ms              704  0.324220  0.269618
+black-forest-labs_flux.1-dev                       613  0.679151  0.533456
+playgroundai_playground-v2.5-1024px-aesthetic      638  0.722756  0.593701

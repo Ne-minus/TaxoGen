@@ -1,0 +1,16 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/590 [00:00<?, ?it/s]Loading weights:  65%|██████▍   | 382/590 [00:00<00:00, 3816.52it/s]Loading weights: 100%|██████████| 590/590 [00:00<00:00, 3848.35it/s]
+Loaded CLIP: openai/clip-vit-large-patch14, val_acc=0.6870
+/venv/main/lib/python3.12/site-packages/PIL/Image.py:1034: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+
+Pairs evaluated: 350  (skipped: 259)
+CLIP accuracy:   0.6943
+IR   accuracy:   0.6400
+Observed delta:  0.0543
+
+── Paired bootstrap (n_boot=10000) ──
+Observed Δacc (CLIP − IR): +0.0543
+95% CI:                    [-0.0114, +0.1171]
+Two-sided p-value:         1.0000
+Significant (p<0.05):      False

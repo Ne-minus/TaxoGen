@@ -1,0 +1,25 @@
+Total configs: 11
+[1/11] lr5e-06_drop0.2_ls0.1_unf4  val=0.75  test=0.6998
+[2/11] lr5e-06_drop0.1_ls0.0_unf4  val=0.75  test=0.697
+[3/11] lr1e-05_drop0.1_ls0.1_unf4  val=0.75  test=0.6884
+[4/11] lr1e-05_drop0.2_ls0.0_unf4  val=0.7417  test=0.678
+[5/11] lr1e-05_drop0.2_ls0.1_unf4  val=0.7458  test=0.6922
+[6/11] lr1e-05_drop0.3_ls0.1_unf4  val=0.7625  test=0.6837
+[7/11] lr3e-05_drop0.2_ls0.1_unf4  val=0.75  test=0.6714
+[8/11] lr3e-05_drop0.3_ls0.1_unf4  val=0.7375  test=0.6856
+[9/11] lr5e-06_drop0.1_ls0.0_unf5  val=0.7333  test=0.6941
+[10/11] lr1e-05_drop0.2_ls0.1_unf5  val=0.7542  test=0.6866
+[11/11] lr3e-05_drop0.2_ls0.1_unf5  val=0.7292  test=0.7235
+
+=== Top 10 configs ===
+      lr  dropout  label_smoothing  unfreeze  val_acc  test_acc                    run_tag
+0.000010      0.3              0.1         4   0.7625    0.6837 lr1e-05_drop0.3_ls0.1_unf4
+0.000010      0.2              0.1         5   0.7542    0.6866 lr1e-05_drop0.2_ls0.1_unf5
+0.000005      0.2              0.1         4   0.7500    0.6998 lr5e-06_drop0.2_ls0.1_unf4
+0.000010      0.1              0.1         4   0.7500    0.6884 lr1e-05_drop0.1_ls0.1_unf4
+0.000005      0.1              0.0         4   0.7500    0.6970 lr5e-06_drop0.1_ls0.0_unf4
+0.000030      0.2              0.1         4   0.7500    0.6714 lr3e-05_drop0.2_ls0.1_unf4
+0.000010      0.2              0.1         4   0.7458    0.6922 lr1e-05_drop0.2_ls0.1_unf4
+0.000010      0.2              0.0         4   0.7417    0.6780 lr1e-05_drop0.2_ls0.0_unf4
+0.000030      0.3              0.1         4   0.7375    0.6856 lr3e-05_drop0.3_ls0.1_unf4
+0.000005      0.1              0.0         5   0.7333    0.6941 lr5e-06_drop0.1_ls0.0_unf5

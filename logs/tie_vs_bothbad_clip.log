@@ -1,0 +1,9 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/590 [00:00<?, ?it/s]Loading weights:  67%|██████▋   | 393/590 [00:00<00:00, 3924.60it/s]Loading weights: 100%|██████████| 590/590 [00:00<00:00, 3952.49it/s]
+Tie rows:     140
+BothBad rows: 119
+Skipped: 0
+Tie  pairs: 140, BothBad pairs: 119
+<stdin>:102: MatplotlibDeprecationWarning: The 'labels' parameter of boxplot() has been renamed 'tick_labels' since Matplotlib 3.9; support for the old name will be dropped in 3.11.
+
+Saved → /workspace/TaxoGen/tie_vs_bothbad_clip_clean.png

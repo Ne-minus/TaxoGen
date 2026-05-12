@@ -1,0 +1,16 @@
+Loading weights:   0%|          | 0/590 [00:00<?, ?it/s]Loading weights:  66%|██████▋   | 392/590 [00:00<00:00, 3917.12it/s]Loading weights: 100%|██████████| 590/590 [00:00<00:00, 4070.52it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+/venv/main/lib/python3.12/site-packages/PIL/Image.py:1034: UserWarning: Palette images with Transparency expressed in bytes should be converted to RGBA images
+  warnings.warn(
+Pairs: 350
+CLIP acc: 0.6943  IR acc: 0.6400  Δ=+0.0543
+
+Contingency table (CLIP rows, IR cols):
+  both correct : 166
+  CLIP+ IR-    : 77  (CLIP wins)
+  CLIP- IR+    : 58  (IR wins)
+  both wrong   : 49
+
+McNemar exact test (b+c=135 discordant pairs):
+  p-value : 0.1210
+  Significant (p<0.05): False

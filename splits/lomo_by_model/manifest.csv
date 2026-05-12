@@ -1,0 +1,13 @@
+model,fold,train_rows,val_rows,test_rows,train_wordnet_ids,val_wordnet_ids,test_wordnet_ids,removed_train_rows,removed_val_rows
+black-forest-labs_flux.1-dev,black_forest_labs_flux_1_dev,2515,334,104,2515,334,104,453,50
+deepfloyd_if-i-xl-v1.0,deepfloyd_if_i_xl_v1_0,2449,309,102,2110,275,100,519,75
+kandinsky-community_kandinsky-3,kandinsky_community_kandinsky_3,2433,317,92,2108,279,90,535,67
+pixart-alpha_pixart-sigma-xl-2-512-ms,pixart_alpha_pixart_sigma_xl_2_512_ms,2418,321,98,2093,288,97,550,63
+playgroundai_playground-v2.5-1024px-aesthetic,playgroundai_playground_v2_5_1024px_aesthetic,2476,328,96,2139,287,95,492,56
+prompthero_openjourney,prompthero_openjourney,2508,324,114,2178,285,113,460,60
+retrieval,retrieval,2501,320,96,2171,289,95,467,64
+runwayml_stable-diffusion-v1-5,runwayml_stable_diffusion_v1_5,2486,322,102,2135,279,101,482,62
+stabilityai_sdxl-turbo,stabilityai_sdxl_turbo,2472,329,102,2142,289,100,496,55
+stabilityai_stable-diffusion-3-medium-diffusers,stabilityai_stable_diffusion_3_medium_diffusers,2488,310,109,2144,273,109,480,74
+stabilityai_stable-diffusion-xl-base-1.0,stabilityai_stable_diffusion_xl_base_1_0,2480,315,113,2143,281,113,488,69
+tencent-hunyuan_hunyuandit-v1.2-diffusers,tencent_hunyuan_hunyuandit_v1_2_diffusers,2454,311,90,2128,275,87,514,73

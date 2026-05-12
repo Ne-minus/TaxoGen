@@ -1,0 +1,28 @@
+Loading ImageReward model...
+load checkpoint from /root/.cache/ImageReward/ImageReward.pt
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+checkpoint loaded
+Test WN IDs: 505
+Model dirs (12): ['DeepFloyd_IF-I-XL-v1.0', 'PixArt-alpha_PixArt-Sigma-XL-2-512-MS', 'Tencent-Hunyuan_HunyuanDiT-v1.2-Diffusers', 'black-forest-labs_FLUX.1-dev', 'kandinsky-community_kandinsky-3', 'playgroundai_playground-v2.5-1024px-aesthetic', 'prompthero_openjourney', 'retrieval', 'runwayml_stable-diffusion-v1-5', 'stabilityai_sdxl-turbo', 'stabilityai_stable-diffusion-3-medium-diffusers', 'stabilityai_stable-diffusion-xl-base-1.0']
+  4000/6060 (66.0%), scored=787
+  5000/6060 (82.5%), scored=975
+  6000/6060 (99.0%), scored=1163
+
+Saved 1183 rows -> /workspace/TaxoGen/scores_ir_def_clean2.csv
+Coverage: 1183/6060 = 19.5%
+
+Per-model stats:
+                                                 count    median      mean
+model                                                                     
+retrieval                                           94 -0.965518 -0.925335
+runwayml_stable-diffusion-v1-5                      99 -0.646240 -0.510194
+prompthero_openjourney                              99 -0.259725 -0.322342
+stabilityai_stable-diffusion-xl-base-1.0            99 -0.254629 -0.178710
+black-forest-labs_flux.1-dev                        99 -0.049976 -0.041579
+stabilityai_sdxl-turbo                              99  0.026548 -0.019958
+kandinsky-community_kandinsky-3                     99  0.031365  0.107135
+deepfloyd_if-i-xl-v1.0                              99  0.081782 -0.014198
+stabilityai_stable-diffusion-3-medium-diffusers     99  0.095194 -0.041947
+tencent-hunyuan_hunyuandit-v1.2-diffusers           99  0.097279  0.013313
+pixart-alpha_pixart-sigma-xl-2-512-ms               99  0.310617  0.159344
+playgroundai_playground-v2.5-1024px-aesthetic       99  0.511283  0.456174
